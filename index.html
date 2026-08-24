@@ -259,7 +259,8 @@
         stroke: #8fa383;
       }
 
-      .start-button {
+      .start-button,
+      .game-dome-button {
         position: fixed;
         left: 50%;
         bottom: 76px;
@@ -280,6 +281,10 @@
         letter-spacing: 0;
       }
 
+      .game-dome-button {
+        z-index: 12;
+      }
+
       .map-overlay {
         position: fixed;
         inset: 0;
@@ -297,6 +302,7 @@
       }
 
       .map-overlay.active ~ .bottom-nav,
+      body.map-open .game-dome-button,
       body.map-open .start-button,
       body.map-open .bottom-nav {
         display: none;
@@ -1215,7 +1221,7 @@
         min-height: 76px;
         transform: translateX(-50%);
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 0;
         border-top: 1px solid rgba(75, 105, 73, 0.44);
         background: rgba(6, 9, 7, 0.94);
@@ -1847,6 +1853,7 @@
     </div>
 
     <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="game-dome-button" type="button" data-game-dome>GAME</button>
       <button class="nav-button" type="button" data-target="profile">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M20 21a8 8 0 0 0-16 0"></path>
@@ -1861,17 +1868,6 @@
           <path d="M10 20v-6h4v6"></path>
         </svg>
         <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-button" type="button" data-target="game">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M8 21h8"></path>
-          <path d="M12 17v4"></path>
-          <path d="M7 4h10l2 9H5l2-9Z"></path>
-          <path d="M9 8h.01"></path>
-          <path d="M15 8h.01"></path>
-          <path d="M9 12h6"></path>
-        </svg>
-        <span class="nav-label">Game</span>
       </button>
       <button class="nav-button" type="button" data-target="settings">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2097,6 +2093,16 @@
           if (target === "settings") {
             showSettingsView("main");
           }
+        });
+      });
+
+      document.querySelector("[data-game-dome]").addEventListener("click", () => {
+        screens.forEach((screen) => {
+          screen.classList.toggle("active", screen.dataset.screen === "game");
+        });
+
+        navButtons.forEach((navButton) => {
+          navButton.classList.remove("active");
         });
       });
 
