@@ -261,7 +261,6 @@
         position: relative;
         min-height: 100vh;
         min-height: 100dvh;
-        display: grid;
         place-items: center;
         padding: calc(36px + var(--safe-top)) 22px calc(28px + var(--safe-bottom));
         background:
@@ -828,6 +827,10 @@
 
       .screen.active {
         display: block;
+      }
+
+      .intro-screen.active {
+        display: grid;
       }
 
       .top-actions {
@@ -1950,7 +1953,7 @@
 
       <section class="screen auth-screen" data-screen="auth-welcome">
         <div class="auth-shell">
-          <h1 class="auth-title">DARK WORLD</h1>
+          <h1 class="auth-title">WELCOME TO DARK WORLD</h1>
           <div class="auth-stack">
             <button class="auth-button" type="button" data-auth-continue>
               <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
@@ -2877,6 +2880,10 @@
         { id: "friend-request-alex", playerId: "alex", type: "friend-request", title: "Friend Request", text: "Alex sent you a friend request", unread: true },
       ];
 
+      if (window.history?.replaceState) {
+        window.history.replaceState({ screen: "intro" }, "", window.location.href);
+      }
+
       const getPartyMembers = () => ["You", ...demoPlayers.filter((player) => player.joined).map((player) => player.name)].slice(0, 6);
 
       const inviteIcon = `
@@ -3349,6 +3356,10 @@
           playIntroSound().catch(() => {});
           window.setTimeout(() => {
             showScreen("auth-welcome");
+            window.scrollTo(0, 0);
+            if (window.history?.replaceState) {
+              window.history.replaceState({ screen: "auth-welcome" }, "", window.location.href);
+            }
           }, 2300);
         });
       }
