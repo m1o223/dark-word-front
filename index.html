@@ -3,15 +3,308 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Dark Word</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       html,
       body {
         margin: 0;
         min-height: 100%;
-        background: #fff;
+        background: #050505;
+        color: #f4f4f4;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+      }
+
+      button {
+        border: 0;
+        color: inherit;
+        font: inherit;
+      }
+
+      .app {
+        width: min(100%, 430px);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: #050505;
+      }
+
+      .screen {
+        flex: 1;
+        display: none;
+        padding: 24px 22px 104px;
+      }
+
+      .screen.active {
+        display: block;
+      }
+
+      .top-actions {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        padding-top: 8px;
+      }
+
+      .icon-button {
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #303030;
+        border-radius: 50%;
+        background: #111;
+      }
+
+      .icon-button svg {
+        width: 22px;
+        height: 22px;
+        stroke: #f4f4f4;
+      }
+
+      .map-placeholder {
+        height: 156px;
+        margin: 42px 0 58px;
+        border: 1px solid #262626;
+        border-radius: 8px;
+        overflow: hidden;
+        background:
+          linear-gradient(35deg, transparent 0 28%, rgba(255, 255, 255, 0.14) 28% 30%, transparent 30% 100%),
+          linear-gradient(145deg, transparent 0 42%, rgba(255, 255, 255, 0.11) 42% 45%, transparent 45% 100%),
+          linear-gradient(90deg, #121212, #1c1c1c);
+        position: relative;
+      }
+
+      .map-placeholder::before,
+      .map-placeholder::after {
+        content: "";
+        position: absolute;
+        border-radius: 999px;
+      }
+
+      .map-placeholder::before {
+        width: 82px;
+        height: 82px;
+        left: 34px;
+        top: 38px;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+      }
+
+      .map-placeholder::after {
+        width: 14px;
+        height: 14px;
+        right: 86px;
+        top: 62px;
+        background: #f4f4f4;
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.13);
+      }
+
+      .start-button {
+        width: 148px;
+        height: 148px;
+        display: block;
+        margin: 0 auto;
+        border-radius: 50%;
+        background: #f4f4f4;
+        color: #050505;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .panel {
+        border: 1px solid #262626;
+        border-radius: 8px;
+        background: #101010;
+        padding: 18px;
+      }
+
+      .profile-avatar {
+        width: 96px;
+        height: 96px;
+        margin: 12px auto 28px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 34%, #d9d9d9 0 18px, transparent 19px),
+          radial-gradient(circle at 50% 102%, #d9d9d9 0 46px, transparent 47px),
+          #2a2a2a;
+        border: 1px solid #3a3a3a;
+      }
+
+      .section {
+        margin-top: 16px;
+      }
+
+      .section-title {
+        margin: 0 0 12px;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .section-row {
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid #252525;
+      }
+
+      .section-row:first-of-type {
+        border-top: 0;
+      }
+
+      .section-value {
+        color: #cfcfcf;
+      }
+
+      .settings-list {
+        margin-top: 12px;
+      }
+
+      .setting-button {
+        width: 100%;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid #252525;
+        background: transparent;
+        text-align: left;
+      }
+
+      .setting-button:first-child {
+        border-top: 0;
+      }
+
+      .bottom-nav {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        width: min(100%, 430px);
+        transform: translateX(-50%);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-top: 1px solid #242424;
+        background: #090909;
+      }
+
+      .nav-button {
+        min-height: 72px;
+        background: transparent;
+        color: #9a9a9a;
+        font-weight: 700;
+      }
+
+      .nav-button.active {
+        color: #f4f4f4;
       }
     </style>
   </head>
-  <body></body>
+  <body>
+    <main class="app">
+      <section class="screen active" data-screen="home">
+        <div class="top-actions" aria-label="Status actions">
+          <button class="icon-button" type="button" aria-label="Microphone">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <path d="M12 19v3"></path>
+            </svg>
+          </button>
+          <button class="icon-button" type="button" aria-label="Camera">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14.5 4 16 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3l1.5-3h5Z"></path>
+              <circle cx="12" cy="13" r="3"></circle>
+            </svg>
+          </button>
+          <button class="icon-button" type="button" aria-label="Sound">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
+              <path d="M15 9.5a5 5 0 0 1 0 5"></path>
+              <path d="M18 7a9 9 0 0 1 0 10"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="map-placeholder" aria-label="Map placeholder"></div>
+        <button class="start-button" type="button">START</button>
+      </section>
+
+      <section class="screen" data-screen="profile">
+        <div class="profile-avatar" aria-label="Profile picture placeholder"></div>
+        <div class="panel section">
+          <h1 class="section-title">Rewards</h1>
+          <div class="section-row">
+            <span>Rewards</span>
+            <span class="section-value">0</span>
+          </div>
+        </div>
+        <div class="panel section">
+          <h1 class="section-title">Currencies</h1>
+          <div class="section-row">
+            <span>Coins</span>
+            <span class="section-value">0</span>
+          </div>
+          <div class="section-row">
+            <span>Points</span>
+            <span class="section-value">0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="settings">
+        <div class="panel settings-list">
+          <button class="setting-button" type="button">
+            <span>Notifications</span>
+            <span class="section-value">&gt;</span>
+          </button>
+          <button class="setting-button" type="button">
+            <span>Sign-in / login management</span>
+            <span class="section-value">&gt;</span>
+          </button>
+          <button class="setting-button" type="button">
+            <span>Delete account</span>
+            <span class="section-value">&gt;</span>
+          </button>
+          <button class="setting-button" type="button">
+            <span>Log out</span>
+            <span class="section-value">&gt;</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-button active" type="button" data-target="home">Home</button>
+      <button class="nav-button" type="button" data-target="profile">Profile</button>
+      <button class="nav-button" type="button" data-target="settings">Settings</button>
+    </nav>
+
+    <script>
+      const navButtons = document.querySelectorAll(".nav-button");
+      const screens = document.querySelectorAll(".screen");
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = button.dataset.target;
+
+          screens.forEach((screen) => {
+            screen.classList.toggle("active", screen.dataset.screen === target);
+          });
+
+          navButtons.forEach((navButton) => {
+            navButton.classList.toggle("active", navButton === button);
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
