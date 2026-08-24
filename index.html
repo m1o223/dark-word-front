@@ -157,7 +157,7 @@
       .start-button {
         position: fixed;
         left: 50%;
-        bottom: 54px;
+        bottom: 76px;
         z-index: 11;
         width: 138px;
         height: 70px;
@@ -173,6 +173,90 @@
         color: #b7c9ae;
         font-weight: 700;
         letter-spacing: 0;
+      }
+
+      .map-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        background:
+          radial-gradient(circle at 50% 46%, rgba(75, 105, 73, 0.18), transparent 34%),
+          linear-gradient(180deg, #030503 0%, #010201 100%);
+        padding: 18px;
+      }
+
+      .map-overlay.active {
+        display: block;
+      }
+
+      .map-overlay.active ~ .bottom-nav,
+      body.map-open .start-button,
+      body.map-open .bottom-nav {
+        display: none;
+      }
+
+      .full-map {
+        position: relative;
+        width: 100%;
+        height: calc(100vh - 36px);
+        border: 1px solid rgba(75, 105, 73, 0.5);
+        border-radius: 10px;
+        overflow: hidden;
+        background:
+          linear-gradient(35deg, transparent 0 28%, rgba(87, 123, 83, 0.16) 28% 29%, transparent 29% 100%),
+          linear-gradient(145deg, transparent 0 44%, rgba(87, 123, 83, 0.16) 44% 45%, transparent 45% 100%),
+          linear-gradient(90deg, rgba(5, 9, 6, 0.96), rgba(14, 22, 14, 0.96));
+        box-shadow: inset 0 0 44px rgba(52, 91, 52, 0.18);
+      }
+
+      .full-map::before,
+      .full-map::after {
+        content: "";
+        position: absolute;
+        border-radius: 999px;
+      }
+
+      .full-map::before {
+        width: 172px;
+        height: 172px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(87, 123, 83, 0.24);
+        box-shadow: 0 0 0 64px rgba(87, 123, 83, 0.04);
+      }
+
+      .full-map::after {
+        width: 12px;
+        height: 12px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #6f8f63;
+        box-shadow: 0 0 0 8px rgba(74, 103, 68, 0.18);
+      }
+
+      .map-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 2;
+        width: 46px;
+        height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(75, 105, 73, 0.58);
+        border-radius: 8px;
+        background: rgba(3, 5, 4, 0.78);
+        color: #c6c9c2;
+      }
+
+      .map-close svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
       }
 
       .panel {
@@ -1402,6 +1486,17 @@
       </section>
     </main>
 
+    <div class="map-overlay" data-map-overlay aria-hidden="true">
+      <div class="full-map" aria-label="Expanded map placeholder">
+        <button class="map-close" type="button" aria-label="Close map" data-close-map>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <nav class="bottom-nav" aria-label="Main navigation">
       <button class="nav-button active" type="button" data-target="home">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1489,6 +1584,7 @@
       const screens = document.querySelectorAll(".screen");
       const settingsViews = document.querySelectorAll(".settings-view");
       const dialogs = document.querySelectorAll(".dialog-backdrop");
+      const mapOverlay = document.querySelector("[data-map-overlay]");
 
       const showSettingsView = (name) => {
         settingsViews.forEach((view) => {
@@ -1572,6 +1668,20 @@
         button.addEventListener("click", () => {
           button.classList.toggle("is-muted");
         });
+      });
+
+      document.querySelector(".map-placeholder").addEventListener("click", () => {
+        document.querySelector('[data-target="home"]').click();
+        mapOverlay.classList.add("active");
+        mapOverlay.setAttribute("aria-hidden", "false");
+        document.body.classList.add("map-open");
+      });
+
+      document.querySelector("[data-close-map]").addEventListener("click", () => {
+        mapOverlay.classList.remove("active");
+        mapOverlay.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("map-open");
+        document.querySelector('[data-target="home"]').click();
       });
 
       const copyPlayerIdButton = document.querySelector("[data-copy-player-id]");
