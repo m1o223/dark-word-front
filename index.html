@@ -418,6 +418,11 @@
 
       .game-dome-button {
         z-index: 12;
+        display: none;
+      }
+
+      body[data-active-screen="home"] .game-dome-button {
+        display: flex;
       }
 
       .map-overlay {
@@ -1400,7 +1405,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-active-screen="home">
     <main class="app">
       <section class="screen home-screen active" data-screen="home">
         <div class="home-action-row" aria-label="Home actions">
@@ -2297,32 +2302,30 @@
         });
       };
 
+      const showScreen = (target, activeButton = null) => {
+        screens.forEach((screen) => {
+          screen.classList.toggle("active", screen.dataset.screen === target);
+        });
+
+        document.body.dataset.activeScreen = target;
+
+        navButtons.forEach((navButton) => {
+          navButton.classList.toggle("active", navButton === activeButton);
+        });
+
+        if (target === "settings") {
+          showSettingsView("main");
+        }
+      };
+
       navButtons.forEach((button) => {
         button.addEventListener("click", () => {
-          const target = button.dataset.target;
-
-          screens.forEach((screen) => {
-            screen.classList.toggle("active", screen.dataset.screen === target);
-          });
-
-          navButtons.forEach((navButton) => {
-            navButton.classList.toggle("active", navButton === button);
-          });
-
-          if (target === "settings") {
-            showSettingsView("main");
-          }
+          showScreen(button.dataset.target, button);
         });
       });
 
       document.querySelector("[data-game-dome]").addEventListener("click", () => {
-        screens.forEach((screen) => {
-          screen.classList.toggle("active", screen.dataset.screen === "game");
-        });
-
-        navButtons.forEach((navButton) => {
-          navButton.classList.remove("active");
-        });
+        showScreen("game");
       });
 
       document.querySelector("[data-main-back]").addEventListener("click", () => {
