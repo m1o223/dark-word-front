@@ -223,7 +223,95 @@
         display: none;
       }
 
-      .home-friends-panel {
+      .party-banner {
+        position: fixed;
+        left: 50%;
+        top: calc(10px + var(--safe-top));
+        z-index: 24;
+        width: min(calc(100% - 28px), 402px);
+        display: none;
+        transform: translateX(-50%);
+        border: 1px solid rgba(75, 105, 73, 0.42);
+        border-radius: 10px;
+        background: rgba(7, 11, 8, 0.92);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+        padding: 12px;
+      }
+
+      .party-banner.active {
+        display: block;
+      }
+
+      .party-banner-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .party-banner-title {
+        display: block;
+        color: #f4f4f4;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .party-banner-text {
+        display: block;
+        margin-top: 3px;
+        color: #98a391;
+        font-size: 12px;
+      }
+
+      .party-banner-actions {
+        display: inline-flex;
+        gap: 8px;
+      }
+
+      .party-banner-button {
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(75, 105, 73, 0.5);
+        border-radius: 8px;
+        background: rgba(12, 18, 13, 0.78);
+        color: #c8d0c3;
+      }
+
+      .party-banner-button.accept {
+        color: #8fa383;
+      }
+
+      .party-banner-button svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+      }
+
+      .party-indicator {
+        display: none;
+        align-items: center;
+        min-height: 34px;
+        border: 1px solid rgba(75, 105, 73, 0.54);
+        border-radius: 999px;
+        background: rgba(8, 13, 9, 0.72);
+        color: #8fa383;
+        padding: 0 14px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      body.party-active .top-actions .icon-button {
+        display: none;
+      }
+
+      body.party-active .party-indicator {
+        display: inline-flex;
+      }
+
+      .play-together-panel {
         position: absolute;
         left: 18px;
         right: 18px;
@@ -234,7 +322,7 @@
         overflow: hidden;
       }
 
-      .home-friends-title {
+      .play-together-title {
         margin: 0;
         padding: 12px 14px 6px;
         color: #8fa383;
@@ -243,36 +331,102 @@
         letter-spacing: 0;
       }
 
-      .home-friends-row {
+      .party-slots {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 0 10px 10px;
+      }
+
+      .party-slot {
+        min-height: 34px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid rgba(75, 105, 73, 0.2);
+        border-radius: 7px;
+        background: rgba(5, 8, 6, 0.48);
+        color: #c8d0c3;
+        padding: 5px 7px;
+        font-size: 11px;
+      }
+
+      .party-slot.empty {
+        color: #5f675c;
+      }
+
+      .party-slot-index {
+        color: #8fa383;
+        font-weight: 800;
+      }
+
+      .party-player-list {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .party-player-row {
         width: 100%;
-        min-height: 46px;
+        min-height: 40px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 0 14px;
+        padding: 0 12px 0 14px;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         background: transparent;
         text-align: left;
       }
 
-      .home-friends-main {
+      .party-player-row:first-child {
+        border-top: 0;
+      }
+
+      .party-player-main {
         display: inline-flex;
         align-items: center;
         gap: 10px;
         color: #f4f4f4;
       }
 
-      .home-friends-icon {
-        width: 18px;
-        height: 18px;
+      .party-avatar {
+        width: 22px;
+        height: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(75, 105, 73, 0.36);
+        border-radius: 50%;
+        background: rgba(14, 20, 14, 0.74);
         color: #8fa383;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .party-action {
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(75, 105, 73, 0.42);
+        border-radius: 7px;
+        background: rgba(12, 18, 13, 0.72);
+        color: #8fa383;
+      }
+
+      .party-action[disabled] {
+        color: #6e766a;
+      }
+
+      .party-action svg {
+        width: 16px;
+        height: 16px;
         stroke: currentColor;
       }
 
-      .home-friends-value {
+      .party-status {
         color: #98a391;
-        font-size: 13px;
+        font-size: 11px;
       }
 
       .full-map {
@@ -1039,6 +1193,7 @@
               <path d="M18 7a9 9 0 0 1 0 10"></path>
             </svg>
           </button>
+          <div class="party-indicator" data-party-indicator>1 / 6 PLAYERS</div>
         </div>
         <button class="map-placeholder" type="button" aria-label="Map placeholder">
           <span class="map-expand" aria-hidden="true">
@@ -1050,42 +1205,10 @@
             </svg>
           </span>
         </button>
-        <section class="home-friends-panel" aria-label="Friends">
-          <h2 class="home-friends-title">FRIENDS</h2>
-          <button class="home-friends-row" type="button" data-dialog="add-friend">
-            <span class="home-friends-main">
-              <svg class="home-friends-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M19 8v6"></path>
-                <path d="M22 11h-6"></path>
-              </svg>
-              <span>Add Friend</span>
-            </span>
-            <span class="home-friends-value">&gt;</span>
-          </button>
-          <div class="home-friends-row">
-            <span class="home-friends-main">
-              <svg class="home-friends-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
-              <span>Friends List</span>
-            </span>
-            <span class="home-friends-value">No friends yet</span>
-          </div>
-          <div class="home-friends-row">
-            <span class="home-friends-main">
-              <svg class="home-friends-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
-                <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"></path>
-              </svg>
-              <span>Invitations</span>
-            </span>
-            <span class="home-friends-value">No invitations</span>
-          </div>
+        <section class="play-together-panel" aria-label="Play Together">
+          <h2 class="play-together-title">PLAY TOGETHER</h2>
+          <div class="party-slots" data-party-slots></div>
+          <div class="party-player-list" data-party-player-list></div>
         </section>
         <button class="start-button" type="button">START</button>
       </section>
@@ -1696,12 +1819,129 @@
 
     <div class="copy-feedback" role="status" aria-live="polite" data-copy-feedback>Player ID copied</div>
 
+    <div class="party-banner" role="status" aria-live="polite" data-party-banner>
+      <div class="party-banner-row">
+        <div>
+          <span class="party-banner-title">Game Invite</span>
+          <span class="party-banner-text" data-party-banner-text>Alex invited you to join a party</span>
+        </div>
+        <div class="party-banner-actions">
+          <button class="party-banner-button accept" type="button" aria-label="Accept invite" data-party-accept>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m20 6-11 11-5-5"></path>
+            </svg>
+          </button>
+          <button class="party-banner-button" type="button" aria-label="Decline invite" data-party-decline>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script>
       const navButtons = document.querySelectorAll(".nav-button");
       const screens = document.querySelectorAll(".screen");
       const settingsViews = document.querySelectorAll(".settings-view");
       const dialogs = document.querySelectorAll(".dialog-backdrop");
       const mapOverlay = document.querySelector("[data-map-overlay]");
+      const partySlots = document.querySelector("[data-party-slots]");
+      const partyPlayerList = document.querySelector("[data-party-player-list]");
+      const partyIndicator = document.querySelector("[data-party-indicator]");
+      const partyBanner = document.querySelector("[data-party-banner]");
+      const partyBannerText = document.querySelector("[data-party-banner-text]");
+      let pendingInvitePlayerId = null;
+
+      const demoPlayers = [
+        { id: "alex", name: "Alex", invited: false, joined: false, inParty: false },
+        { id: "sam", name: "Sam", invited: false, joined: false, inParty: true },
+        { id: "noah", name: "Noah", invited: false, joined: false, inParty: false },
+        { id: "liam", name: "Liam", invited: false, joined: false, inParty: false },
+        { id: "mia", name: "Mia", invited: false, joined: false, inParty: true },
+        { id: "leo", name: "Leo", invited: false, joined: false, inParty: false },
+      ];
+
+      const getPartyMembers = () => ["You", ...demoPlayers.filter((player) => player.joined).map((player) => player.name)].slice(0, 6);
+
+      const inviteIcon = `
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14"></path>
+          <path d="M12 5v14"></path>
+        </svg>`;
+
+      const joinIcon = `
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 3h5v5"></path>
+          <path d="m21 3-7 7"></path>
+          <path d="M10 21H5a2 2 0 0 1-2-2v-5"></path>
+          <path d="M3 14l6-6"></path>
+          <path d="M14 21h5a2 2 0 0 0 2-2v-5"></path>
+        </svg>`;
+
+      const joinedIcon = `
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m20 6-11 11-5-5"></path>
+        </svg>`;
+
+      const renderParty = () => {
+        const members = getPartyMembers();
+        const partyActive = members.length > 1;
+        document.body.classList.toggle("party-active", partyActive);
+        partyIndicator.textContent = `${members.length} / 6 PLAYERS`;
+
+        partySlots.innerHTML = Array.from({ length: 6 }, (_, index) => {
+          const member = members[index];
+          return `
+            <div class="party-slot${member ? "" : " empty"}">
+              <span class="party-slot-index">${index + 1}</span>
+              <span>${member || "Empty"}</span>
+            </div>`;
+        }).join("");
+
+        partyPlayerList.innerHTML = demoPlayers.map((player) => {
+          let action = `<button class="party-action" type="button" aria-label="Invite ${player.name}" data-party-invite="${player.id}">${inviteIcon}</button>`;
+          let status = "Invite";
+
+          if (player.joined) {
+            action = `<button class="party-action" type="button" disabled aria-label="${player.name} joined">${joinedIcon}</button>`;
+            status = "Joined";
+          } else if (player.invited) {
+            action = `<button class="party-action" type="button" disabled aria-label="${player.name} invited">${joinedIcon}</button>`;
+            status = "Invited";
+          } else if (player.inParty) {
+            action = `<button class="party-action" type="button" aria-label="Join ${player.name} party" data-party-join="${player.id}">${joinIcon}</button>`;
+            status = "Join party";
+          }
+
+          return `
+            <div class="party-player-row">
+              <span class="party-player-main">
+                <span class="party-avatar">${player.name.slice(0, 1)}</span>
+                <span>${player.name}</span>
+              </span>
+              <span class="party-status">${status}</span>
+              ${action}
+            </div>`;
+        }).join("");
+      };
+
+      const addPlayerToParty = (player) => {
+        if (getPartyMembers().length >= 6) {
+          return;
+        }
+
+        player.joined = true;
+        player.invited = false;
+        renderParty();
+      };
+
+      const showPartyInvite = (player) => {
+        pendingInvitePlayerId = player.id;
+        partyBannerText.textContent = `${player.name} invited you to join a party`;
+        partyBanner.classList.add("active");
+      };
 
       const showSettingsView = (name) => {
         settingsViews.forEach((view) => {
@@ -1787,6 +2027,39 @@
         });
       });
 
+      partyPlayerList.addEventListener("click", (event) => {
+        const inviteButton = event.target.closest("[data-party-invite]");
+        const joinButton = event.target.closest("[data-party-join]");
+
+        if (inviteButton) {
+          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === inviteButton.dataset.partyInvite);
+          player.invited = true;
+          showPartyInvite(player);
+          renderParty();
+        }
+
+        if (joinButton) {
+          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === joinButton.dataset.partyJoin);
+          addPlayerToParty(player);
+        }
+      });
+
+      document.querySelector("[data-party-accept]").addEventListener("click", () => {
+        const player = demoPlayers.find((demoPlayer) => demoPlayer.id === pendingInvitePlayerId);
+
+        if (player) {
+          addPlayerToParty(player);
+        }
+
+        partyBanner.classList.remove("active");
+        pendingInvitePlayerId = null;
+      });
+
+      document.querySelector("[data-party-decline]").addEventListener("click", () => {
+        partyBanner.classList.remove("active");
+        pendingInvitePlayerId = null;
+      });
+
       document.querySelector(".map-placeholder").addEventListener("click", () => {
         document.querySelector('[data-target="home"]').click();
         mapOverlay.classList.add("active");
@@ -1836,6 +2109,8 @@
             .catch(() => {});
         });
       }
+
+      renderParty();
     </script>
   </body>
 </html>
