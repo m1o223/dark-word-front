@@ -96,6 +96,96 @@
         overflow: hidden;
       }
 
+      .game-camera-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        display: none;
+        overflow: hidden;
+        background: #020302;
+      }
+
+      .game-camera-layer.active {
+        display: block;
+      }
+
+      .game-camera-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(1) sepia(0.92) hue-rotate(48deg) saturate(2.15) contrast(1.42) brightness(0.78);
+      }
+
+      .game-camera-layer::before,
+      .game-camera-layer::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .game-camera-layer::before {
+        background:
+          radial-gradient(circle at 50% 48%, transparent 0 48%, rgba(0, 0, 0, 0.38) 100%),
+          linear-gradient(180deg, rgba(44, 76, 39, 0.14), rgba(3, 8, 4, 0.2));
+        mix-blend-mode: multiply;
+      }
+
+      .game-camera-layer::after {
+        opacity: 0.34;
+        background:
+          repeating-linear-gradient(0deg, rgba(182, 199, 169, 0.028) 0 1px, transparent 1px 4px),
+          repeating-radial-gradient(circle at 45% 48%, rgba(187, 199, 174, 0.035) 0 1px, transparent 1px 5px);
+      }
+
+      .game-screen .top-actions,
+      .game-screen .map-placeholder,
+      .game-screen .start-button {
+        z-index: 2;
+      }
+
+      .camera-countdown,
+      .camera-test-message {
+        position: fixed;
+        left: 50%;
+        z-index: 22;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+
+      .camera-countdown {
+        top: 50%;
+        display: none;
+        transform: translate(-50%, -50%);
+        color: #dce5d6;
+        font-size: clamp(58px, 22vw, 96px);
+        font-weight: 900;
+        text-shadow: 0 0 28px rgba(75, 105, 73, 0.46);
+      }
+
+      .camera-countdown.active {
+        display: block;
+      }
+
+      .camera-test-message {
+        top: calc(64px + var(--safe-top));
+        width: min(calc(100% - 36px), 394px);
+        display: none;
+        border: 1px solid rgba(75, 105, 73, 0.42);
+        border-radius: 8px;
+        background: rgba(7, 11, 8, 0.92);
+        color: #c8d0c3;
+        padding: 12px 14px;
+        font-size: 13px;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .camera-test-message.active {
+        display: block;
+      }
+
       .home-dashboard {
         display: grid;
         gap: 14px;
@@ -2074,6 +2164,9 @@
       </section>
 
       <section class="screen game-screen" data-screen="game">
+        <div class="game-camera-layer" data-camera-layer aria-hidden="true">
+          <video class="game-camera-video" data-camera-video autoplay playsinline muted></video>
+        </div>
         <div class="top-actions" aria-label="Game status">
           <div class="party-indicator" data-party-indicator>1 / 6 PLAYERS</div>
         </div>
@@ -2088,6 +2181,8 @@
           </span>
         </button>
         <button class="start-button" type="button">START</button>
+        <div class="camera-countdown" data-camera-countdown aria-live="assertive"></div>
+        <div class="camera-test-message" data-camera-message role="status" aria-live="polite"></div>
       </section>
 
       <section class="screen profile-screen" data-screen="profile">
@@ -2750,9 +2845,17 @@
       const gameSetupSummary = document.querySelector("[data-game-setup-summary]");
       const introScreen = document.querySelector('[data-screen="intro"]');
       const introEnter = document.querySelector("[data-intro-enter]");
+      const startButton = document.querySelector(".start-button");
+      const cameraLayer = document.querySelector("[data-camera-layer]");
+      const cameraVideo = document.querySelector("[data-camera-video]");
+      const cameraCountdown = document.querySelector("[data-camera-countdown]");
+      const cameraMessage = document.querySelector("[data-camera-message]");
       let pendingInvitePlayerId = null;
       let mapReturnTarget = "game";
       let introStarted = false;
+      let cameraStream = null;
+      let cameraTestRunning = false;
+      let cameraCountdownTimer = null;
       const gameSetupState = {
         scare: "Normal",
         difficulty: "Normal",
@@ -2857,6 +2960,128 @@
         window.setTimeout(() => {
           audioContext.close().catch(() => {});
         }, 3200);
+      };
+
+      const showCameraMessage = (message) => {
+        cameraMessage.textContent = message;
+        cameraMessage.classList.add("active");
+        window.setTimeout(() => {
+          cameraMessage.classList.remove("active");
+        }, 4200);
+      };
+
+      const stopCameraTest = () => {
+        if (cameraCountdownTimer) {
+          window.clearTimeout(cameraCountdownTimer);
+          cameraCountdownTimer = null;
+        }
+
+        cameraCountdown.classList.remove("active");
+        cameraCountdown.textContent = "";
+        cameraLayer.classList.remove("active");
+        cameraLayer.setAttribute("aria-hidden", "true");
+        cameraMessage.classList.remove("active");
+
+        if (cameraStream) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+          cameraStream = null;
+        }
+
+        cameraVideo.srcObject = null;
+        cameraTestRunning = false;
+        startButton.disabled = false;
+      };
+
+      const speakGo = () => {
+        if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+          return;
+        }
+
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance("Go");
+        utterance.rate = 0.92;
+        utterance.pitch = 0.82;
+        utterance.volume = 0.88;
+        window.speechSynthesis.speak(utterance);
+      };
+
+      const runCameraCountdown = () => new Promise((resolve) => {
+        const steps = ["5", "4", "3", "2", "1", "GO"];
+        let index = 0;
+        cameraCountdown.classList.add("active");
+
+        const showStep = () => {
+          const value = steps[index];
+          cameraCountdown.textContent = value;
+
+          if (value === "GO") {
+            speakGo();
+          }
+
+          index += 1;
+
+          if (index >= steps.length) {
+            cameraCountdownTimer = window.setTimeout(() => {
+              cameraCountdown.classList.remove("active");
+              cameraCountdown.textContent = "";
+              cameraCountdownTimer = null;
+              resolve();
+            }, 700);
+            return;
+          }
+
+          cameraCountdownTimer = window.setTimeout(showStep, 1000);
+        };
+
+        showStep();
+      });
+
+      const requestGameCamera = async () => {
+        if (!navigator.mediaDevices?.getUserMedia) {
+          throw new Error("Camera access is not available in this browser.");
+        }
+
+        try {
+          return await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: { ideal: "environment" },
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+            },
+            audio: false,
+          });
+        } catch (error) {
+          if (error.name === "OverconstrainedError") {
+            return navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+          }
+
+          throw error;
+        }
+      };
+
+      const startCameraTest = async () => {
+        if (cameraTestRunning || cameraLayer.classList.contains("active")) {
+          return;
+        }
+
+        cameraTestRunning = true;
+        startButton.disabled = true;
+        cameraMessage.classList.remove("active");
+
+        try {
+          cameraStream = await requestGameCamera();
+          cameraVideo.srcObject = cameraStream;
+          await cameraVideo.play().catch(() => {});
+          await runCameraCountdown();
+          cameraLayer.classList.add("active");
+          cameraLayer.setAttribute("aria-hidden", "false");
+        } catch (error) {
+          stopCameraTest();
+          showCameraMessage("Camera access is required for this test.");
+        } finally {
+          cameraTestRunning = false;
+          startButton.disabled = false;
+        }
       };
 
       const updateGameSetupSummary = () => {
@@ -3066,6 +3291,10 @@
       };
 
       const showScreen = (target, activeButton = null) => {
+        if (target !== "game" && cameraStream) {
+          stopCameraTest();
+        }
+
         screens.forEach((screen) => {
           screen.classList.toggle("active", screen.dataset.screen === target);
         });
@@ -3127,6 +3356,8 @@
       document.querySelector("[data-game-dome]").addEventListener("click", () => {
         showScreen("game");
       });
+
+      startButton.addEventListener("click", startCameraTest);
 
       if (gameSetupToggle && gameSetupPanel) {
         gameSetupToggle.addEventListener("click", () => {
