@@ -167,6 +167,101 @@
           linear-gradient(180deg, #050705 0%, #020302 100%);
       }
 
+      .intro-screen {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: calc(36px + var(--safe-top)) 22px calc(28px + var(--safe-bottom));
+        background:
+          radial-gradient(circle at 50% 46%, rgba(39, 77, 45, 0.18), transparent 34%),
+          radial-gradient(circle at 50% 0, rgba(39, 77, 45, 0.14), transparent 38%),
+          linear-gradient(180deg, #030403 0%, #010201 100%);
+        overflow: hidden;
+      }
+
+      .intro-screen::before,
+      .intro-screen::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .intro-screen::before {
+        background:
+          repeating-linear-gradient(0deg, rgba(148, 166, 137, 0.026) 0 1px, transparent 1px 4px),
+          radial-gradient(circle at 52% 50%, rgba(75, 105, 73, 0.12), transparent 32%);
+        opacity: 0.5;
+      }
+
+      .intro-screen::after {
+        height: 2px;
+        top: 0;
+        bottom: auto;
+        background: linear-gradient(90deg, transparent, rgba(107, 136, 96, 0.72), transparent);
+        box-shadow: 0 0 18px rgba(107, 136, 96, 0.28);
+        animation: intro-scan 2600ms ease-out forwards;
+      }
+
+      .intro-core {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        justify-items: center;
+        gap: 16px;
+        text-align: center;
+        animation: intro-rise 2200ms ease-out both;
+      }
+
+      .intro-title {
+        margin: 0;
+        color: #e4e7e1;
+        font-size: 34px;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-shadow: 0 0 18px rgba(83, 112, 75, 0.24);
+        animation: intro-glitch 2400ms steps(1, end) both;
+      }
+
+      .intro-prompt {
+        min-height: 38px;
+        border: 1px solid rgba(75, 105, 73, 0.38);
+        border-radius: 8px;
+        background: rgba(6, 10, 7, 0.58);
+        color: #a8b59f;
+        padding: 0 18px;
+        font-size: 12px;
+        font-weight: 800;
+        opacity: 0;
+        animation: intro-prompt 900ms ease-out 1700ms forwards;
+      }
+
+      .intro-note {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: calc(24px + var(--safe-bottom));
+        z-index: 1;
+        color: #7f8d78;
+        font-size: 11px;
+        font-weight: 800;
+        text-align: center;
+        opacity: 0.76;
+      }
+
+      .intro-note span {
+        display: block;
+        margin-top: 3px;
+        color: #626c5f;
+        font-size: 10px;
+      }
+
+      .intro-screen.exiting .intro-core {
+        animation: intro-exit 900ms ease-in forwards;
+      }
+
       .auth-shell {
         min-height: calc(100dvh - 92px - var(--safe-top) - var(--safe-bottom));
         display: flex;
@@ -237,8 +332,70 @@
         margin-bottom: auto;
       }
 
+      body[data-active-screen="intro"] .bottom-nav,
       body[data-active-screen^="auth-"] .bottom-nav {
         display: none;
+      }
+
+      @keyframes intro-scan {
+        0% {
+          transform: translateY(-6px);
+          opacity: 0;
+        }
+        18% {
+          opacity: 1;
+        }
+        82% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(100vh);
+          opacity: 0;
+        }
+      }
+
+      @keyframes intro-rise {
+        0%, 28% {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes intro-glitch {
+        0%, 26% {
+          opacity: 0;
+          transform: translateX(0);
+        }
+        27% {
+          opacity: 0.4;
+          transform: translateX(-2px);
+        }
+        29% {
+          opacity: 0.12;
+          transform: translateX(3px);
+        }
+        31%, 100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes intro-prompt {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes intro-exit {
+        to {
+          opacity: 0;
+          transform: scale(1.03);
+          filter: blur(1px);
+        }
       }
 
       .home-action-row {
@@ -1599,9 +1756,17 @@
       }
     </style>
   </head>
-  <body data-active-screen="auth-welcome">
+  <body data-active-screen="intro">
     <main class="app">
-      <section class="screen auth-screen active" data-screen="auth-welcome">
+      <section class="screen intro-screen active" data-screen="intro">
+        <div class="intro-core">
+          <h1 class="intro-title">DARK WORLD</h1>
+          <button class="intro-prompt" type="button" data-intro-enter>TAP TO ENTER</button>
+        </div>
+        <div class="intro-note">HEADPHONES RECOMMENDED<span>For the best experience</span></div>
+      </section>
+
+      <section class="screen auth-screen" data-screen="auth-welcome">
         <div class="auth-shell">
           <h1 class="auth-title">DARK WORLD</h1>
           <div class="auth-stack">
@@ -2407,8 +2572,11 @@
       const gameSetupPanel = document.querySelector("[data-game-setup-panel]");
       const gameSetupToggle = document.querySelector("[data-game-setup-toggle]");
       const gameSetupSummary = document.querySelector("[data-game-setup-summary]");
+      const introScreen = document.querySelector('[data-screen="intro"]');
+      const introEnter = document.querySelector("[data-intro-enter]");
       let pendingInvitePlayerId = null;
       let mapReturnTarget = "game";
+      let introStarted = false;
       const gameSetupState = {
         scare: "Normal",
         difficulty: "Normal",
@@ -2451,6 +2619,69 @@
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="m20 6-11 11-5-5"></path>
         </svg>`;
+
+      const introSoundLayers = [
+        {
+          url: "assets/audio/source/mixkit-broken-radio-frequency-signal-2563.wav",
+          gain: 0.14,
+          offset: 0,
+          duration: 2.6,
+          when: 0,
+        },
+        {
+          url: "assets/audio/source/mixkit-terrifying-creature-breath-2234.wav",
+          gain: 0.09,
+          offset: 0,
+          duration: 2.4,
+          when: 0.1,
+        },
+        {
+          url: "assets/audio/source/mixkit-cinematic-whoosh-deep-impact-1143.mp3",
+          gain: 0.18,
+          offset: 0.25,
+          duration: 2.2,
+          when: 0.15,
+        },
+        {
+          url: "assets/audio/source/mixkit-apocalyptic-stomp-impact-3057.wav",
+          gain: 0.1,
+          offset: 0,
+          duration: 1.2,
+          when: 1.25,
+        },
+      ];
+
+      const playIntroSound = async () => {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) {
+          return;
+        }
+
+        const audioContext = new AudioContextClass();
+        await audioContext.resume();
+        const masterGain = audioContext.createGain();
+        masterGain.gain.setValueAtTime(0.44, audioContext.currentTime);
+        masterGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 2.8);
+        masterGain.connect(audioContext.destination);
+
+        await Promise.all(introSoundLayers.map(async (layer) => {
+          const response = await fetch(layer.url);
+          const arrayBuffer = await response.arrayBuffer();
+          const buffer = await audioContext.decodeAudioData(arrayBuffer);
+          const source = audioContext.createBufferSource();
+          const gain = audioContext.createGain();
+          source.buffer = buffer;
+          gain.gain.setValueAtTime(layer.gain, audioContext.currentTime + layer.when);
+          source.connect(gain);
+          gain.connect(masterGain);
+          source.start(audioContext.currentTime + layer.when, layer.offset, Math.min(layer.duration, buffer.duration - layer.offset));
+        }));
+
+        window.setTimeout(() => {
+          audioContext.close().catch(() => {});
+        }, 3200);
+      };
 
       const updateGameSetupSummary = () => {
         if (gameSetupSummary) {
@@ -2691,6 +2922,22 @@
           showScreen("home", document.querySelector('[data-target="home"]'));
         });
       });
+
+      if (introEnter && introScreen) {
+        introEnter.addEventListener("click", () => {
+          if (introStarted) {
+            return;
+          }
+
+          introStarted = true;
+          introEnter.disabled = true;
+          introScreen.classList.add("exiting");
+          playIntroSound().catch(() => {});
+          window.setTimeout(() => {
+            showScreen("auth-welcome");
+          }, 2300);
+        });
+      }
 
       document.querySelector("[data-game-dome]").addEventListener("click", () => {
         showScreen("game");
