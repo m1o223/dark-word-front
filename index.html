@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050705" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>Dark Word</title>
     <style>
       * {
@@ -13,7 +15,9 @@
       body {
         margin: 0;
         min-height: 100%;
-        background: #050505;
+        background:
+          radial-gradient(circle at 50% 0, rgba(39, 77, 45, 0.18), transparent 34%),
+          #050705;
         color: #f4f4f4;
         font-family: Arial, Helvetica, sans-serif;
       }
@@ -34,7 +38,9 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        background: #050505;
+        background:
+          radial-gradient(circle at 50% 0, rgba(39, 77, 45, 0.18), transparent 34%),
+          #050705;
       }
 
       .screen {
@@ -181,6 +187,7 @@
         z-index: 30;
         display: none;
         background:
+          radial-gradient(circle at 50% 0, rgba(39, 77, 45, 0.18), transparent 34%),
           radial-gradient(circle at 50% 46%, rgba(75, 105, 73, 0.18), transparent 34%),
           linear-gradient(180deg, #030503 0%, #010201 100%);
         padding: 18px;
