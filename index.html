@@ -302,6 +302,108 @@
         gap: 6px;
       }
 
+      .game-setup-panel {
+        margin-top: 22px;
+        border: 1px solid rgba(75, 105, 73, 0.3);
+        border-radius: 8px;
+        background: rgba(8, 12, 9, 0.64);
+        overflow: hidden;
+      }
+
+      .game-setup-toggle {
+        width: 100%;
+        min-height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 0;
+        background: transparent;
+        color: #f4f4f4;
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      .game-setup-title {
+        display: block;
+        color: #8fa383;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .game-setup-summary {
+        display: block;
+        color: #c6c9c2;
+        font-size: 12px;
+        margin-top: 3px;
+      }
+
+      .game-setup-chevron {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+        stroke: #8fa383;
+        transition: transform 160ms ease;
+      }
+
+      .game-setup-panel.open .game-setup-chevron {
+        transform: rotate(180deg);
+      }
+
+      .game-setup-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 180ms ease, opacity 140ms ease;
+      }
+
+      .game-setup-panel.open .game-setup-content {
+        max-height: 360px;
+        opacity: 1;
+      }
+
+      .game-setup-inner {
+        display: grid;
+        gap: 12px;
+        border-top: 1px solid rgba(75, 105, 73, 0.18);
+        padding: 12px;
+      }
+
+      .setup-row {
+        display: grid;
+        gap: 7px;
+      }
+
+      .setup-label {
+        color: #8fa383;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .setup-options {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        gap: 6px;
+      }
+
+      .setup-option {
+        min-height: 32px;
+        border: 1px solid rgba(75, 105, 73, 0.28);
+        border-radius: 7px;
+        background: rgba(4, 7, 5, 0.68);
+        color: #9aa393;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .setup-option.selected {
+        border-color: rgba(143, 163, 131, 0.68);
+        background: rgba(34, 56, 33, 0.7);
+        color: #e5ecdf;
+      }
+
       .screen.active {
         display: block;
       }
@@ -1448,6 +1550,52 @@
             <span class="notification-dot active" data-inbox-dot></span>
           </div>
         </div>
+
+        <section class="game-setup-panel" data-game-setup-panel>
+          <button class="game-setup-toggle" type="button" aria-expanded="false" data-game-setup-toggle>
+            <span>
+              <span class="game-setup-title">GAME SETUP</span>
+              <span class="game-setup-summary" data-game-setup-summary>Normal • Normal • Solo • Normal</span>
+            </span>
+            <svg class="game-setup-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </button>
+          <div class="game-setup-content">
+            <div class="game-setup-inner">
+              <div class="setup-row">
+                <span class="setup-label">SCARE LEVEL</span>
+                <div class="setup-options" data-setup-group="scare">
+                  <button class="setup-option" type="button" data-setup-option="Low">Low</button>
+                  <button class="setup-option selected" type="button" data-setup-option="Normal">Normal</button>
+                  <button class="setup-option" type="button" data-setup-option="Extreme">Extreme</button>
+                </div>
+              </div>
+              <div class="setup-row">
+                <span class="setup-label">DIFFICULTY</span>
+                <div class="setup-options" data-setup-group="difficulty">
+                  <button class="setup-option" type="button" data-setup-option="Easy">Easy</button>
+                  <button class="setup-option selected" type="button" data-setup-option="Normal">Normal</button>
+                  <button class="setup-option" type="button" data-setup-option="Hard">Hard</button>
+                </div>
+              </div>
+              <div class="setup-row">
+                <span class="setup-label">MODE</span>
+                <div class="setup-options" data-setup-group="mode">
+                  <button class="setup-option selected" type="button" data-setup-option="Solo">Solo</button>
+                  <button class="setup-option" type="button" data-setup-option="Party">Party</button>
+                </div>
+              </div>
+              <div class="setup-row">
+                <span class="setup-label">MISSION LENGTH</span>
+                <div class="setup-options" data-setup-group="length">
+                  <button class="setup-option" type="button" data-setup-option="Quick">Quick</button>
+                  <button class="setup-option selected" type="button" data-setup-option="Normal">Normal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
 
       <section class="screen game-screen" data-screen="game">
@@ -2122,8 +2270,17 @@
       const sendFriendList = document.querySelector("[data-send-friend-list]");
       const inboxList = document.querySelector("[data-inbox-list]");
       const inboxDot = document.querySelector("[data-inbox-dot]");
+      const gameSetupPanel = document.querySelector("[data-game-setup-panel]");
+      const gameSetupToggle = document.querySelector("[data-game-setup-toggle]");
+      const gameSetupSummary = document.querySelector("[data-game-setup-summary]");
       let pendingInvitePlayerId = null;
       let mapReturnTarget = "game";
+      const gameSetupState = {
+        scare: "Normal",
+        difficulty: "Normal",
+        mode: "Solo",
+        length: "Normal",
+      };
 
       const demoPlayers = [
         { id: "alex", playerId: "DW-10001", name: "Alex", invited: false, joined: false, inParty: false, isFriend: false },
@@ -2160,6 +2317,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="m20 6-11 11-5-5"></path>
         </svg>`;
+
+      const updateGameSetupSummary = () => {
+        if (gameSetupSummary) {
+          gameSetupSummary.textContent = `${gameSetupState.scare} • ${gameSetupState.difficulty} • ${gameSetupState.mode} • ${gameSetupState.length}`;
+        }
+      };
 
       const setInboxUnread = (hasUnread) => {
         if (inboxDot) {
@@ -2387,6 +2550,30 @@
         showScreen("game");
       });
 
+      if (gameSetupToggle && gameSetupPanel) {
+        gameSetupToggle.addEventListener("click", () => {
+          const isOpen = gameSetupPanel.classList.toggle("open");
+          gameSetupToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+      }
+
+      document.querySelectorAll("[data-setup-group]").forEach((group) => {
+        group.addEventListener("click", (event) => {
+          const option = event.target.closest("[data-setup-option]");
+
+          if (!option) {
+            return;
+          }
+
+          group.querySelectorAll("[data-setup-option]").forEach((button) => {
+            button.classList.toggle("selected", button === option);
+          });
+
+          gameSetupState[group.dataset.setupGroup] = option.dataset.setupOption;
+          updateGameSetupSummary();
+        });
+      });
+
       document.querySelector("[data-main-back]").addEventListener("click", () => {
         document.querySelector('[data-target="home"]').click();
       });
@@ -2599,6 +2786,7 @@
         });
       }
 
+      updateGameSetupSummary();
       syncInboxUnread();
       renderInbox();
       renderFriendSearch();
