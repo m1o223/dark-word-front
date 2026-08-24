@@ -158,6 +158,141 @@
         font-size: 12px;
       }
 
+      .home-action-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding-top: 6px;
+      }
+
+      .home-action {
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid rgba(75, 105, 73, 0.34);
+        background: rgba(8, 12, 9, 0.7);
+        color: #c8d0c3;
+        padding: 0 12px;
+      }
+
+      .home-action.circle {
+        width: 52px;
+        border-radius: 50%;
+        padding: 0;
+      }
+
+      .home-action.rect {
+        flex: 1;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .home-action-wrap {
+        position: relative;
+        display: grid;
+        justify-items: center;
+        gap: 5px;
+      }
+
+      .home-action svg {
+        width: 19px;
+        height: 19px;
+        stroke: currentColor;
+      }
+
+      .home-action-label {
+        color: #98a391;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .notification-dot {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 8px;
+        height: 8px;
+        display: none;
+        border-radius: 50%;
+        background: #a83030;
+        box-shadow: 0 0 0 2px rgba(8, 12, 9, 0.94);
+      }
+
+      .notification-dot.active {
+        display: block;
+      }
+
+      .search-results,
+      .inbox-list,
+      .invite-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .demo-result-row,
+      .inbox-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border: 1px solid rgba(75, 105, 73, 0.22);
+        border-radius: 8px;
+        background: rgba(8, 12, 9, 0.58);
+        padding: 8px 10px;
+      }
+
+      .demo-result-main {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .demo-avatar {
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(75, 105, 73, 0.34);
+        border-radius: 50%;
+        background: rgba(14, 20, 14, 0.74);
+        color: #8fa383;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .demo-result-name {
+        color: #f4f4f4;
+        font-size: 14px;
+      }
+
+      .demo-result-action {
+        min-width: 34px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(75, 105, 73, 0.38);
+        border-radius: 8px;
+        background: rgba(12, 18, 13, 0.72);
+        color: #8fa383;
+        padding: 0 9px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .demo-result-action svg {
+        width: 15px;
+        height: 15px;
+        stroke: currentColor;
+      }
+
       .screen.active {
         display: block;
       }
@@ -1268,46 +1403,34 @@
   <body>
     <main class="app">
       <section class="screen home-screen active" data-screen="home">
-        <div class="home-dashboard">
-          <section class="home-panel" aria-label="How to Play">
-            <h2 class="home-panel-title">HOW TO PLAY</h2>
-            <p class="home-panel-copy">Prepare your party, enter Game, then start when you are ready.</p>
-          </section>
-          <section class="home-panel" aria-label="Player preparation">
-            <h2 class="home-panel-title">PREPARE</h2>
-            <button class="home-dashboard-row" type="button" data-dialog="add-friend">
-              <span class="home-dashboard-main">
-                <svg class="home-dashboard-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M19 8v6"></path>
-                  <path d="M22 11h-6"></path>
-                </svg>
-                <span>Add Friend</span>
-              </span>
-              <span class="home-dashboard-value">&gt;</span>
+        <div class="home-action-row" aria-label="Home actions">
+          <div class="home-action-wrap">
+            <button class="home-action circle" type="button" aria-label="Add Friend" data-dialog="add-friend-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M19 8v6"></path>
+                <path d="M22 11h-6"></path>
+              </svg>
             </button>
-            <div class="home-dashboard-row">
-              <span class="home-dashboard-main">
-                <svg class="home-dashboard-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
-                  <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"></path>
-                </svg>
-                <span>Friend Requests</span>
-              </span>
-              <span class="home-dashboard-value">0</span>
-            </div>
-            <div class="home-dashboard-row">
-              <span class="home-dashboard-main">
-                <svg class="home-dashboard-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
-                  <path d="M9 17a3 3 0 0 0 6 0"></path>
-                </svg>
-                <span>Game Invitations</span>
-              </span>
-              <span class="home-dashboard-value">0</span>
-            </div>
-          </section>
+            <span class="home-action-label">Add Friend</span>
+          </div>
+          <button class="home-action rect" type="button" data-dialog="send-friend">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m22 2-7 20-4-9-9-4 20-7Z"></path>
+              <path d="M22 2 11 13"></path>
+            </svg>
+            <span>Send to Friend</span>
+          </button>
+          <div class="home-action-wrap">
+            <button class="home-action circle" type="button" aria-label="Inbox" data-dialog="inbox" data-inbox-open>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+                <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"></path>
+              </svg>
+            </button>
+            <span class="notification-dot active" data-inbox-dot></span>
+          </div>
         </div>
       </section>
 
@@ -1353,25 +1476,6 @@
         </div>
 
         <div class="profile-panel">
-          <button class="profile-row" type="button" data-dialog="add-friend">
-            <span class="profile-row-main">
-              <svg class="profile-row-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M19 8v6"></path>
-                <path d="M22 11h-6"></path>
-              </svg>
-              <span>Add Friend</span>
-            </span>
-            <span class="profile-value">&gt;</span>
-          </button>
-          <div class="profile-row">
-            <span class="profile-row-main">Friends</span>
-            <span class="profile-value">0</span>
-          </div>
-        </div>
-
-        <div class="profile-panel">
           <h2 class="profile-panel-header">LEVEL</h2>
           <span class="level-value">Level 1</span>
           <div class="xp-track" aria-label="XP progress">
@@ -1413,10 +1517,6 @@
             </div>
             <div class="stat-cell">
               <span class="stat-label">Entities Captured</span>
-              <span class="stat-value">0</span>
-            </div>
-            <div class="stat-cell">
-              <span class="stat-label">Friends</span>
               <span class="stat-value">0</span>
             </div>
             <div class="stat-cell">
@@ -1933,6 +2033,37 @@
       </div>
     </div>
 
+    <div class="dialog-backdrop" data-dialog-panel="add-friend-search" role="dialog" aria-modal="true" aria-labelledby="add-friend-search-title">
+      <div class="dialog-panel">
+        <h2 class="dialog-title" id="add-friend-search-title">Add Friend</h2>
+        <input class="dialog-field" type="text" placeholder="Search username" aria-label="Search username" data-friend-search />
+        <div class="search-results" data-friend-search-results></div>
+        <div class="dialog-actions">
+          <button class="dialog-button" type="button" data-close-dialog>Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-backdrop" data-dialog-panel="send-friend" role="dialog" aria-modal="true" aria-labelledby="send-friend-title">
+      <div class="dialog-panel">
+        <h2 class="dialog-title" id="send-friend-title">Send to Friend</h2>
+        <div class="invite-list" data-send-friend-list></div>
+        <div class="dialog-actions">
+          <button class="dialog-button" type="button" data-close-dialog>Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-backdrop" data-dialog-panel="inbox" role="dialog" aria-modal="true" aria-labelledby="inbox-title">
+      <div class="dialog-panel">
+        <h2 class="dialog-title" id="inbox-title">Inbox</h2>
+        <div class="inbox-list" data-inbox-list></div>
+        <div class="dialog-actions">
+          <button class="dialog-button" type="button" data-close-dialog>Close</button>
+        </div>
+      </div>
+    </div>
+
     <div class="copy-feedback" role="status" aria-live="polite" data-copy-feedback>Player ID copied</div>
 
     <div class="party-banner" role="status" aria-live="polite" data-party-banner>
@@ -1970,6 +2101,11 @@
       const partyIndicator = document.querySelector("[data-party-indicator]");
       const partyBanner = document.querySelector("[data-party-banner]");
       const partyBannerText = document.querySelector("[data-party-banner-text]");
+      const friendSearchInput = document.querySelector("[data-friend-search]");
+      const friendSearchResults = document.querySelector("[data-friend-search-results]");
+      const sendFriendList = document.querySelector("[data-send-friend-list]");
+      const inboxList = document.querySelector("[data-inbox-list]");
+      const inboxDot = document.querySelector("[data-inbox-dot]");
       let pendingInvitePlayerId = null;
       let mapReturnTarget = "game";
 
@@ -1980,6 +2116,13 @@
         { id: "liam", name: "Liam", invited: false, joined: false, inParty: false },
         { id: "mia", name: "Mia", invited: false, joined: false, inParty: true },
         { id: "leo", name: "Leo", invited: false, joined: false, inParty: false },
+      ];
+      const sentFriendRequests = new Set();
+      const sentGameInvites = new Set();
+      const inboxItems = [
+        { id: "friend-request", title: "Friend request", text: "Alex sent a friend request", unread: true },
+        { id: "game-invitation", title: "Game invitation", text: "Sam invited you to a game", unread: false },
+        { id: "future-notice", title: "Other future game notifications", text: "Demo notification placeholder", unread: false },
       ];
 
       const getPartyMembers = () => ["You", ...demoPlayers.filter((player) => player.joined).map((player) => player.name)].slice(0, 6);
@@ -2003,6 +2146,82 @@
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="m20 6-11 11-5-5"></path>
         </svg>`;
+
+      const setInboxUnread = (hasUnread) => {
+        if (inboxDot) {
+          inboxDot.classList.toggle("active", hasUnread);
+        }
+      };
+
+      const renderInbox = () => {
+        if (!inboxList) {
+          return;
+        }
+
+        inboxList.innerHTML = inboxItems.map((item) => `
+          <div class="inbox-item">
+            <span class="demo-result-main">
+              <span class="demo-avatar">${item.title.slice(0, 1)}</span>
+              <span>
+                <span class="demo-result-name">${item.title}</span>
+                <span class="profile-value">${item.text}</span>
+              </span>
+            </span>
+          </div>`).join("");
+      };
+
+      const addInboxItem = (title, text) => {
+        inboxItems.unshift({ id: `${Date.now()}`, title, text, unread: true });
+        setInboxUnread(true);
+        renderInbox();
+      };
+
+      const renderFriendSearch = () => {
+        if (!friendSearchResults || !friendSearchInput) {
+          return;
+        }
+
+        const query = friendSearchInput.value.trim().toLowerCase();
+        const matchingPlayers = demoPlayers.filter((player) => player.name.toLowerCase().includes(query));
+
+        friendSearchResults.innerHTML = matchingPlayers.map((player) => {
+          const requestSent = sentFriendRequests.has(player.id);
+          const action = requestSent
+            ? `<button class="demo-result-action" type="button" disabled>Request Sent</button>`
+            : `<button class="demo-result-action" type="button" aria-label="Add ${player.name}" data-friend-request="${player.id}">${inviteIcon}</button>`;
+
+          return `
+            <div class="demo-result-row">
+              <span class="demo-result-main">
+                <span class="demo-avatar">${player.name.slice(0, 1)}</span>
+                <span class="demo-result-name">${player.name}</span>
+              </span>
+              ${action}
+            </div>`;
+        }).join("");
+      };
+
+      const renderSendFriendList = () => {
+        if (!sendFriendList) {
+          return;
+        }
+
+        sendFriendList.innerHTML = demoPlayers.map((player) => {
+          const inviteSent = sentGameInvites.has(player.id);
+          const action = inviteSent
+            ? `<button class="demo-result-action" type="button" disabled>Sent</button>`
+            : `<button class="demo-result-action" type="button" aria-label="Send invite to ${player.name}" data-send-game-invite="${player.id}">${inviteIcon}</button>`;
+
+          return `
+            <div class="demo-result-row">
+              <span class="demo-result-main">
+                <span class="demo-avatar">${player.name.slice(0, 1)}</span>
+                <span class="demo-result-name">${player.name}</span>
+              </span>
+              ${action}
+            </div>`;
+        }).join("");
+      };
 
       const renderParty = () => {
         const members = getPartyMembers();
@@ -2129,6 +2348,48 @@
         });
       });
 
+      document.querySelector("[data-inbox-open]").addEventListener("click", () => {
+        inboxItems.forEach((item) => {
+          item.unread = false;
+        });
+        setInboxUnread(false);
+        renderInbox();
+      });
+
+      if (friendSearchInput) {
+        friendSearchInput.addEventListener("input", renderFriendSearch);
+      }
+
+      if (friendSearchResults) {
+        friendSearchResults.addEventListener("click", (event) => {
+          const requestButton = event.target.closest("[data-friend-request]");
+
+          if (!requestButton) {
+            return;
+          }
+
+          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === requestButton.dataset.friendRequest);
+          sentFriendRequests.add(player.id);
+          addInboxItem("Friend request", `Request sent to ${player.name}`);
+          renderFriendSearch();
+        });
+      }
+
+      if (sendFriendList) {
+        sendFriendList.addEventListener("click", (event) => {
+          const sendButton = event.target.closest("[data-send-game-invite]");
+
+          if (!sendButton) {
+            return;
+          }
+
+          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === sendButton.dataset.sendGameInvite);
+          sentGameInvites.add(player.id);
+          addInboxItem("Game invitation", `Demo invite sent to ${player.name}`);
+          renderSendFriendList();
+        });
+      }
+
       document.querySelectorAll("[data-close-dialog]").forEach((button) => {
         button.addEventListener("click", closeDialogs);
       });
@@ -2246,6 +2507,10 @@
         });
       }
 
+      setInboxUnread(inboxItems.some((item) => item.unread));
+      renderInbox();
+      renderFriendSearch();
+      renderSendFriendList();
       renderParty();
     </script>
   </body>
