@@ -161,36 +161,30 @@
       .home-action-row {
         display: flex;
         align-items: flex-start;
+        justify-content: space-between;
         gap: 12px;
         padding-top: 6px;
       }
 
       .home-action {
-        min-height: 52px;
+        width: 56px;
+        height: 56px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
         border: 1px solid rgba(75, 105, 73, 0.34);
+        border-radius: 16px;
         background: rgba(8, 12, 9, 0.7);
         color: #c8d0c3;
-        padding: 0 12px;
-      }
-
-      .home-action.circle {
-        width: 52px;
-        border-radius: 50%;
         padding: 0;
       }
 
-      .home-action.rect {
-        flex: 1;
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: 800;
+      .home-action:active {
+        border-color: rgba(143, 163, 131, 0.62);
       }
 
       .home-action-wrap {
+        width: 84px;
         position: relative;
         display: grid;
         justify-items: center;
@@ -236,7 +230,7 @@
 
       .demo-result-row,
       .inbox-item {
-        min-height: 44px;
+        min-height: 48px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -251,6 +245,7 @@
         display: inline-flex;
         align-items: center;
         gap: 10px;
+        min-width: 0;
       }
 
       .demo-avatar {
@@ -268,8 +263,16 @@
       }
 
       .demo-result-name {
+        display: block;
         color: #f4f4f4;
         font-size: 14px;
+      }
+
+      .demo-result-id {
+        display: block;
+        color: #8f9a89;
+        font-size: 11px;
+        margin-top: 2px;
       }
 
       .demo-result-action {
@@ -291,6 +294,12 @@
         width: 15px;
         height: 15px;
         stroke: currentColor;
+      }
+
+      .inbox-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
       }
 
       .screen.active {
@@ -1410,7 +1419,7 @@
       <section class="screen home-screen active" data-screen="home">
         <div class="home-action-row" aria-label="Home actions">
           <div class="home-action-wrap">
-            <button class="home-action circle" type="button" aria-label="Add Friend" data-dialog="add-friend-search">
+            <button class="home-action" type="button" aria-label="Add Friend" data-dialog="add-friend-search">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>
@@ -1420,15 +1429,17 @@
             </button>
             <span class="home-action-label">Add Friend</span>
           </div>
-          <button class="home-action rect" type="button" data-dialog="send-friend">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="m22 2-7 20-4-9-9-4 20-7Z"></path>
-              <path d="M22 2 11 13"></path>
-            </svg>
-            <span>Send to Friend</span>
-          </button>
           <div class="home-action-wrap">
-            <button class="home-action circle" type="button" aria-label="Inbox" data-dialog="inbox" data-inbox-open>
+            <button class="home-action" type="button" aria-label="Invite to Game" data-dialog="send-friend">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m22 2-7 20-4-9-9-4 20-7Z"></path>
+                <path d="M22 2 11 13"></path>
+              </svg>
+            </button>
+            <span class="home-action-label">Invite to Game</span>
+          </div>
+          <div class="home-action-wrap">
+            <button class="home-action" type="button" aria-label="Inbox" data-dialog="inbox" data-inbox-open>
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
                 <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"></path>
@@ -2041,7 +2052,7 @@
     <div class="dialog-backdrop" data-dialog-panel="add-friend-search" role="dialog" aria-modal="true" aria-labelledby="add-friend-search-title">
       <div class="dialog-panel">
         <h2 class="dialog-title" id="add-friend-search-title">Add Friend</h2>
-        <input class="dialog-field" type="text" placeholder="Search username" aria-label="Search username" data-friend-search />
+        <input class="dialog-field" type="text" placeholder="Enter Player ID" aria-label="Enter Player ID" data-friend-search />
         <div class="search-results" data-friend-search-results></div>
         <div class="dialog-actions">
           <button class="dialog-button" type="button" data-close-dialog>Close</button>
@@ -2051,7 +2062,7 @@
 
     <div class="dialog-backdrop" data-dialog-panel="send-friend" role="dialog" aria-modal="true" aria-labelledby="send-friend-title">
       <div class="dialog-panel">
-        <h2 class="dialog-title" id="send-friend-title">Send to Friend</h2>
+        <h2 class="dialog-title" id="send-friend-title">Invite to Game</h2>
         <div class="invite-list" data-send-friend-list></div>
         <div class="dialog-actions">
           <button class="dialog-button" type="button" data-close-dialog>Close</button>
@@ -2115,19 +2126,17 @@
       let mapReturnTarget = "game";
 
       const demoPlayers = [
-        { id: "alex", name: "Alex", invited: false, joined: false, inParty: false },
-        { id: "sam", name: "Sam", invited: false, joined: false, inParty: true },
-        { id: "noah", name: "Noah", invited: false, joined: false, inParty: false },
-        { id: "liam", name: "Liam", invited: false, joined: false, inParty: false },
-        { id: "mia", name: "Mia", invited: false, joined: false, inParty: true },
-        { id: "leo", name: "Leo", invited: false, joined: false, inParty: false },
+        { id: "alex", playerId: "DW-10001", name: "Alex", invited: false, joined: false, inParty: false, isFriend: false },
+        { id: "sam", playerId: "DW-10002", name: "Sam", invited: false, joined: false, inParty: true, isFriend: true },
+        { id: "noah", playerId: "DW-10003", name: "Noah", invited: false, joined: false, inParty: false, isFriend: true },
+        { id: "liam", playerId: "DW-10004", name: "Liam", invited: false, joined: false, inParty: false, isFriend: false },
+        { id: "mia", playerId: "DW-10005", name: "Mia", invited: false, joined: false, inParty: true, isFriend: true },
+        { id: "leo", playerId: "DW-10006", name: "Leo", invited: false, joined: false, inParty: false, isFriend: false },
       ];
       const sentFriendRequests = new Set();
       const sentGameInvites = new Set();
       const inboxItems = [
-        { id: "friend-request", title: "Friend request", text: "Alex sent a friend request", unread: true },
-        { id: "game-invitation", title: "Game invitation", text: "Sam invited you to a game", unread: false },
-        { id: "future-notice", title: "Other future game notifications", text: "Demo notification placeholder", unread: false },
+        { id: "friend-request-alex", playerId: "alex", type: "friend-request", title: "Friend Request", text: "Alex sent you a friend request", unread: true },
       ];
 
       const getPartyMembers = () => ["You", ...demoPlayers.filter((player) => player.joined).map((player) => player.name)].slice(0, 6);
@@ -2158,8 +2167,17 @@
         }
       };
 
+      const syncInboxUnread = () => {
+        setInboxUnread(inboxItems.some((item) => item.unread));
+      };
+
       const renderInbox = () => {
         if (!inboxList) {
+          return;
+        }
+
+        if (inboxItems.length === 0) {
+          inboxList.innerHTML = `<div class="inbox-item"><span class="profile-value">No incoming requests</span></div>`;
           return;
         }
 
@@ -2172,12 +2190,38 @@
                 <span class="profile-value">${item.text}</span>
               </span>
             </span>
+            ${item.type === "friend-request" ? `
+              <span class="inbox-actions">
+                <button class="demo-result-action" type="button" data-accept-friend-request="${item.id}">Accept</button>
+                <button class="demo-result-action" type="button" aria-label="Decline friend request" data-decline-friend-request="${item.id}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                  </svg>
+                </button>
+              </span>` : ""}
           </div>`).join("");
       };
 
-      const addInboxItem = (title, text) => {
-        inboxItems.unshift({ id: `${Date.now()}`, title, text, unread: true });
-        setInboxUnread(true);
+      const addIncomingFriendRequest = (player) => {
+        const existingItem = inboxItems.find((item) => item.type === "friend-request" && item.playerId === player.id);
+
+        if (existingItem) {
+          existingItem.unread = true;
+          syncInboxUnread();
+          renderInbox();
+          return;
+        }
+
+        inboxItems.unshift({
+          id: `friend-request-${player.id}-${Date.now()}`,
+          playerId: player.id,
+          type: "friend-request",
+          title: "Friend Request",
+          text: `${player.name} sent you a friend request`,
+          unread: true,
+        });
+        syncInboxUnread();
         renderInbox();
       };
 
@@ -2186,8 +2230,10 @@
           return;
         }
 
-        const query = friendSearchInput.value.trim().toLowerCase();
-        const matchingPlayers = demoPlayers.filter((player) => player.name.toLowerCase().includes(query));
+        const query = friendSearchInput.value.trim().toUpperCase();
+        const matchingPlayers = query
+          ? demoPlayers.filter((player) => player.playerId.includes(query))
+          : [];
 
         friendSearchResults.innerHTML = matchingPlayers.map((player) => {
           const requestSent = sentFriendRequests.has(player.id);
@@ -2199,7 +2245,10 @@
             <div class="demo-result-row">
               <span class="demo-result-main">
                 <span class="demo-avatar">${player.name.slice(0, 1)}</span>
-                <span class="demo-result-name">${player.name}</span>
+                <span>
+                  <span class="demo-result-name">${player.name}</span>
+                  <span class="demo-result-id">${player.playerId}</span>
+                </span>
               </span>
               ${action}
             </div>`;
@@ -2211,20 +2260,30 @@
           return;
         }
 
-        sendFriendList.innerHTML = demoPlayers.map((player) => {
+        const friendPlayers = demoPlayers.filter((player) => player.isFriend);
+
+        if (friendPlayers.length === 0) {
+          sendFriendList.innerHTML = `<div class="inbox-item"><span class="profile-value">No friends available</span></div>`;
+          return;
+        }
+
+        sendFriendList.innerHTML = friendPlayers.map((player) => {
           const inviteSent = sentGameInvites.has(player.id);
           const action = inviteSent
             ? `<button class="demo-result-action" type="button" disabled>Sent</button>`
             : `<button class="demo-result-action" type="button" aria-label="Send invite to ${player.name}" data-send-game-invite="${player.id}">${inviteIcon}</button>`;
 
           return `
-            <div class="demo-result-row">
-              <span class="demo-result-main">
-                <span class="demo-avatar">${player.name.slice(0, 1)}</span>
+          <div class="demo-result-row">
+            <span class="demo-result-main">
+              <span class="demo-avatar">${player.name.slice(0, 1)}</span>
+              <span>
                 <span class="demo-result-name">${player.name}</span>
+                <span class="demo-result-id">${player.playerId}</span>
               </span>
-              ${action}
-            </div>`;
+            </span>
+            ${action}
+          </div>`;
         }).join("");
       };
 
@@ -2280,7 +2339,7 @@
 
       const showPartyInvite = (player) => {
         pendingInvitePlayerId = player.id;
-        partyBannerText.textContent = `${player.name} invited you to join a party`;
+        partyBannerText.textContent = `${player.name} invited you to play`;
         partyBanner.classList.add("active");
       };
 
@@ -2355,7 +2414,7 @@
         inboxItems.forEach((item) => {
           item.unread = false;
         });
-        setInboxUnread(false);
+        syncInboxUnread();
         renderInbox();
       });
 
@@ -2373,8 +2432,38 @@
 
           const player = demoPlayers.find((demoPlayer) => demoPlayer.id === requestButton.dataset.friendRequest);
           sentFriendRequests.add(player.id);
-          addInboxItem("Friend request", `Request sent to ${player.name}`);
+          addIncomingFriendRequest(player);
           renderFriendSearch();
+        });
+      }
+
+      if (inboxList) {
+        inboxList.addEventListener("click", (event) => {
+          const acceptButton = event.target.closest("[data-accept-friend-request]");
+          const declineButton = event.target.closest("[data-decline-friend-request]");
+          const actionButton = acceptButton || declineButton;
+
+          if (!actionButton) {
+            return;
+          }
+
+          const itemIndex = inboxItems.findIndex((item) => item.id === actionButton.dataset.acceptFriendRequest || item.id === actionButton.dataset.declineFriendRequest);
+
+          if (itemIndex < 0) {
+            return;
+          }
+
+          const item = inboxItems[itemIndex];
+          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === item.playerId);
+
+          if (acceptButton && player) {
+            player.isFriend = true;
+            renderSendFriendList();
+          }
+
+          inboxItems.splice(itemIndex, 1);
+          syncInboxUnread();
+          renderInbox();
         });
       }
 
@@ -2388,7 +2477,7 @@
 
           const player = demoPlayers.find((demoPlayer) => demoPlayer.id === sendButton.dataset.sendGameInvite);
           sentGameInvites.add(player.id);
-          addInboxItem("Game invitation", `Demo invite sent to ${player.name}`);
+          showPartyInvite(player);
           renderSendFriendList();
         });
       }
@@ -2510,7 +2599,7 @@
         });
       }
 
-      setInboxUnread(inboxItems.some((item) => item.unread));
+      syncInboxUnread();
       renderInbox();
       renderFriendSearch();
       renderSendFriendList();
