@@ -184,6 +184,288 @@
         border-top: 0;
       }
 
+      .settings-shell {
+        background:
+          radial-gradient(circle at 50% 0, rgba(33, 255, 126, 0.08), transparent 34%),
+          #050505;
+      }
+
+      .settings-view {
+        display: none;
+      }
+
+      .settings-view.active {
+        display: block;
+      }
+
+      .settings-header {
+        min-height: 44px;
+        display: grid;
+        grid-template-columns: 44px 44px 1fr;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 22px;
+      }
+
+      .settings-back,
+      .settings-icon {
+        width: 44px;
+        height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(61, 255, 132, 0.24);
+        border-radius: 8px;
+        background: rgba(14, 18, 15, 0.76);
+        color: #7dff9d;
+      }
+
+      .settings-icon svg,
+      .settings-back svg {
+        width: 21px;
+        height: 21px;
+        stroke: currentColor;
+      }
+
+      .settings-title {
+        margin: 0;
+        color: #f4f4f4;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .settings-page-title {
+        margin: 0;
+        color: #f4f4f4;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .settings-view:not([data-settings-view="main"]) .settings-header {
+        grid-template-columns: 44px 1fr;
+      }
+
+      .settings-group {
+        margin-top: 16px;
+        border: 1px solid rgba(61, 255, 132, 0.14);
+        border-radius: 8px;
+        background: rgba(12, 14, 13, 0.72);
+        overflow: hidden;
+      }
+
+      .settings-group-title {
+        margin: 0;
+        padding: 14px 16px 8px;
+        color: #7dff9d;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .settings-row {
+        width: 100%;
+        min-height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 0 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent;
+        text-align: left;
+      }
+
+      .settings-row:first-of-type {
+        border-top: 0;
+      }
+
+      .settings-row-label {
+        color: #f4f4f4;
+        font-size: 15px;
+      }
+
+      .settings-row-arrow,
+      .settings-muted {
+        color: #89a18f;
+      }
+
+      .switch {
+        position: relative;
+        width: 48px;
+        height: 28px;
+        flex: 0 0 auto;
+      }
+
+      .switch input {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .switch-track {
+        position: absolute;
+        inset: 0;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: #202020;
+        pointer-events: none;
+        transition: background 150ms ease, border-color 150ms ease;
+      }
+
+      .switch-track::after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        left: 2px;
+        top: 2px;
+        border-radius: 50%;
+        background: #c7c7c7;
+        transition: transform 150ms ease, background 150ms ease;
+      }
+
+      .switch input:checked + .switch-track {
+        border-color: rgba(61, 255, 132, 0.68);
+        background: rgba(61, 255, 132, 0.34);
+      }
+
+      .switch input:checked + .switch-track::after {
+        transform: translateX(20px);
+        background: #7dff9d;
+      }
+
+      .slider-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 14px 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .slider-row label {
+        grid-column: 1 / -1;
+      }
+
+      .slider-row input {
+        width: 100%;
+        accent-color: #69ff8d;
+      }
+
+      .settings-action {
+        width: calc(100% - 32px);
+        min-height: 48px;
+        margin: 14px 16px 16px;
+        border: 1px solid rgba(61, 255, 132, 0.38);
+        border-radius: 8px;
+        background: rgba(61, 255, 132, 0.12);
+        color: #7dff9d;
+        font-weight: 800;
+      }
+
+      .permission-title,
+      .about-title {
+        margin: 0 0 12px;
+        color: #f4f4f4;
+        font-size: 20px;
+      }
+
+      .permission-copy,
+      .plain-list {
+        margin: 14px 0 0;
+        color: #d7d7d7;
+        line-height: 1.5;
+      }
+
+      .permission-copy {
+        padding: 0 16px;
+      }
+
+      .plain-list {
+        padding: 16px 22px 18px 36px;
+      }
+
+      .permission-status {
+        display: inline-flex;
+        margin-top: 4px;
+        color: #7dff9d;
+        font-weight: 800;
+      }
+
+      .demo-note {
+        margin-top: 12px;
+        color: #89a18f;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .language-row.selected .settings-row-label::after {
+        content: "Selected";
+        margin-left: 12px;
+        color: #7dff9d;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .dialog-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 22px;
+        background: rgba(0, 0, 0, 0.72);
+      }
+
+      .dialog-backdrop.active {
+        display: flex;
+      }
+
+      .dialog-panel {
+        width: min(100%, 360px);
+        border: 1px solid rgba(61, 255, 132, 0.18);
+        border-radius: 8px;
+        background: #0b0d0c;
+        padding: 20px;
+      }
+
+      .dialog-title {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .dialog-text {
+        margin: 0;
+        color: #d7d7d7;
+        line-height: 1.45;
+      }
+
+      .dialog-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .dialog-button {
+        min-height: 44px;
+        border-radius: 8px;
+        background: #1a1a1a;
+      }
+
+      .dialog-button.danger {
+        background: rgba(255, 75, 75, 0.18);
+        color: #ff7777;
+      }
+
       .bottom-nav {
         position: fixed;
         left: 50%;
@@ -260,24 +542,400 @@
         </div>
       </section>
 
-      <section class="screen" data-screen="settings">
-        <div class="panel settings-list">
-          <button class="setting-button" type="button">
-            <span>Notifications</span>
-            <span class="section-value">&gt;</span>
-          </button>
-          <button class="setting-button" type="button">
-            <span>Sign-in / login management</span>
-            <span class="section-value">&gt;</span>
-          </button>
-          <button class="setting-button" type="button">
-            <span>Delete account</span>
-            <span class="section-value">&gt;</span>
-          </button>
-          <button class="setting-button" type="button">
-            <span>Log out</span>
-            <span class="section-value">&gt;</span>
-          </button>
+      <section class="screen settings-shell" data-screen="settings">
+        <div class="settings-view active" data-settings-view="main">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-main-back aria-label="Back">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <div class="settings-icon" aria-label="Settings icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+                <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.36a1.7 1.7 0 0 0-1 .14 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.08a1.7 1.7 0 0 0-1-1.56 1.7 1.7 0 0 0-1-.14 1.7 1.7 0 0 0-.93.48l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.14-1A1.7 1.7 0 0 0 1.9 13H2a2 2 0 1 1 0-4h-.08A1.7 1.7 0 0 0 3.48 8a1.7 1.7 0 0 0 .14-1 1.7 1.7 0 0 0-.48-.93l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 7 3.6a1.7 1.7 0 0 0 1-.14A1.7 1.7 0 0 0 9 1.9V2a2 2 0 1 1 4 0v-.08a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1 .14 1.7 1.7 0 0 0 .93-.48l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 7a1.7 1.7 0 0 0 .14 1A1.7 1.7 0 0 0 21.1 9H21a2 2 0 1 1 0 4h.08A1.7 1.7 0 0 0 19.4 15Z"></path>
+              </svg>
+            </div>
+            <h1 class="settings-title">SETTINGS</h1>
+          </div>
+
+          <div class="settings-group">
+            <h2 class="settings-group-title">GAME</h2>
+            <button class="settings-row" type="button" data-open-settings="sound">
+              <span class="settings-row-label">Sound</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="music">
+              <span class="settings-row-label">Music</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="vibration">
+              <span class="settings-row-label">Vibration</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+          </div>
+
+          <div class="settings-group">
+            <h2 class="settings-group-title">PERMISSIONS</h2>
+            <button class="settings-row" type="button" data-open-settings="microphone">
+              <span class="settings-row-label">Microphone</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="camera">
+              <span class="settings-row-label">Camera</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="location">
+              <span class="settings-row-label">Location</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+          </div>
+
+          <div class="settings-group">
+            <h2 class="settings-group-title">NOTIFICATIONS</h2>
+            <button class="settings-row" type="button" data-open-settings="notifications">
+              <span class="settings-row-label">Notifications</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+          </div>
+
+          <div class="settings-group">
+            <h2 class="settings-group-title">GENERAL</h2>
+            <button class="settings-row" type="button" data-open-settings="language">
+              <span class="settings-row-label">Language</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="safety">
+              <span class="settings-row-label">Safety</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="support">
+              <span class="settings-row-label">Help &amp; Support</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+          </div>
+
+          <div class="settings-group">
+            <h2 class="settings-group-title">ACCOUNT</h2>
+            <button class="settings-row" type="button" data-open-settings="account">
+              <span class="settings-row-label">Account</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-dialog="logout">
+              <span class="settings-row-label">Log Out</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-dialog="delete-1">
+              <span class="settings-row-label">Delete Account</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+          </div>
+
+          <div class="settings-group">
+            <h2 class="settings-group-title">LEGAL &amp; INFO</h2>
+            <button class="settings-row" type="button" data-open-settings="privacy">
+              <span class="settings-row-label">Privacy</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+            <button class="settings-row" type="button" data-open-settings="about">
+              <span class="settings-row-label">About Dark World</span>
+              <span class="settings-row-arrow">&gt;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="sound">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Sound</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <span class="settings-row-label">Game Sound</span>
+              <label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label>
+            </div>
+            <div class="slider-row">
+              <label class="settings-row-label" for="sound-volume">Sound Volume</label>
+              <input id="sound-volume" type="range" min="0" max="100" value="75" />
+              <span class="settings-muted" data-slider-value="sound-volume">75%</span>
+            </div>
+            <div class="settings-row">
+              <span class="settings-row-label">Horror Effects</span>
+              <label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label>
+            </div>
+            <div class="settings-row">
+              <span class="settings-row-label">Spatial Audio</span>
+              <label class="switch"><input type="checkbox" /><span class="switch-track"></span></label>
+            </div>
+            <button class="settings-action" type="button">Test Sound</button>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="music">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Music</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <span class="settings-row-label">Background Music</span>
+              <label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label>
+            </div>
+            <div class="slider-row">
+              <label class="settings-row-label" for="music-volume">Music Volume</label>
+              <input id="music-volume" type="range" min="0" max="100" value="60" />
+              <span class="settings-muted" data-slider-value="music-volume">60%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="vibration">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Vibration</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <span class="settings-row-label">Vibration</span>
+              <label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label>
+            </div>
+            <div class="settings-row">
+              <span class="settings-row-label">Scare Vibration</span>
+              <label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label>
+            </div>
+            <div class="settings-row">
+              <span class="settings-row-label">Radar Vibration</span>
+              <label class="switch"><input type="checkbox" /><span class="switch-track"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="microphone">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Microphone</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <div>
+                <h2 class="permission-title">Microphone Access</h2>
+                <span class="permission-status" data-permission-status="microphone">Not Allowed</span>
+              </div>
+            </div>
+            <p class="permission-copy">The microphone is used during missions that react to your voice and surrounding sounds.</p>
+            <button class="settings-action" type="button">Open Device Settings</button>
+            <p class="demo-note">Frontend demo only. This page does not change system permission settings.</p>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="camera">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Camera</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <div>
+                <h2 class="permission-title">Camera Access</h2>
+                <span class="permission-status" data-permission-status="camera">Not Allowed</span>
+              </div>
+            </div>
+            <p class="permission-copy">The camera is required for AR missions and capturing entities.</p>
+            <button class="settings-action" type="button">Open Device Settings</button>
+            <p class="demo-note">Frontend demo only. This page does not change system permission settings.</p>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="location">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Location</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <div>
+                <h2 class="permission-title">Location Access</h2>
+                <span class="permission-status" data-permission-status="geolocation">Not Allowed</span>
+              </div>
+            </div>
+            <p class="permission-copy">Your location is used to find nearby zones and missions.</p>
+            <div class="settings-row">
+              <span class="settings-row-label">While Using the App</span>
+            </div>
+            <button class="settings-action" type="button">Open Device Settings</button>
+            <p class="demo-note">Frontend demo only. No background-location tracking is added.</p>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="notifications">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Notifications</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row"><span class="settings-row-label">Notifications</span><label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label></div>
+            <div class="settings-row"><span class="settings-row-label">New Missions</span><label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label></div>
+            <div class="settings-row"><span class="settings-row-label">New Zones</span><label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label></div>
+            <div class="settings-row"><span class="settings-row-label">Special Events</span><label class="switch"><input type="checkbox" /><span class="switch-track"></span></label></div>
+            <div class="settings-row"><span class="settings-row-label">Rewards &amp; Gifts</span><label class="switch"><input type="checkbox" checked /><span class="switch-track"></span></label></div>
+            <div class="settings-row"><span class="settings-row-label">Challenges</span><label class="switch"><input type="checkbox" /><span class="switch-track"></span></label></div>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="language">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Language</h1>
+          </div>
+          <div class="settings-group">
+            <button class="settings-row language-row selected" type="button" data-language-option><span class="settings-row-label">English</span></button>
+            <button class="settings-row language-row" type="button" data-language-option><span class="settings-row-label">العربية</span></button>
+            <button class="settings-row language-row" type="button" data-language-option><span class="settings-row-label">Svenska</span></button>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="safety">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Safety</h1>
+          </div>
+          <div class="settings-group">
+            <ul class="plain-list">
+              <li>Stay aware of your surroundings.</li>
+              <li>Do not enter private or restricted areas.</li>
+              <li>Do not play while driving.</li>
+              <li>Follow local rules.</li>
+              <li>Keep enough awareness of real-world sounds when using headphones.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="support">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Help &amp; Support</h1>
+          </div>
+          <div class="settings-group">
+            <button class="settings-row" type="button"><span class="settings-row-label">How to Play</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Camera Problems</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Microphone Problems</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Location Problems</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Purchases</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Report a Problem</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Contact Support</span><span class="settings-row-arrow">&gt;</span></button>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="account">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Account</h1>
+          </div>
+          <div class="settings-group">
+            <button class="settings-row" type="button"><span class="settings-row-label">Profile</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Email</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Change Password</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Subscription / Dark Pass</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Restore Purchases</span><span class="settings-row-arrow">&gt;</span></button>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="privacy">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">Privacy</h1>
+          </div>
+          <div class="settings-group">
+            <button class="settings-row" type="button"><span class="settings-row-label">Privacy Policy</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Location Data</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Camera &amp; Microphone</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Advertising &amp; Analytics</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Manage Consent</span><span class="settings-row-arrow">&gt;</span></button>
+          </div>
+        </div>
+
+        <div class="settings-view" data-settings-view="about">
+          <div class="settings-header">
+            <button class="settings-back" type="button" data-settings-back aria-label="Back to Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+            <h1 class="settings-page-title">About Dark World</h1>
+          </div>
+          <div class="settings-group">
+            <div class="settings-row">
+              <div>
+                <h2 class="about-title">Dark World</h2>
+                <span class="settings-muted">Version: 0.1</span>
+              </div>
+            </div>
+            <button class="settings-row" type="button"><span class="settings-row-label">Terms of Service</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Privacy Policy</span><span class="settings-row-arrow">&gt;</span></button>
+            <button class="settings-row" type="button"><span class="settings-row-label">Credits</span><span class="settings-row-arrow">&gt;</span></button>
+          </div>
         </div>
       </section>
     </main>
@@ -288,9 +946,61 @@
       <button class="nav-button" type="button" data-target="settings">Settings</button>
     </nav>
 
+    <div class="dialog-backdrop" data-dialog-panel="logout" role="dialog" aria-modal="true" aria-labelledby="logout-title">
+      <div class="dialog-panel">
+        <h2 class="dialog-title" id="logout-title">Are you sure you want to log out?</h2>
+        <div class="dialog-actions">
+          <button class="dialog-button" type="button" data-close-dialog>Cancel</button>
+          <button class="dialog-button danger" type="button" data-close-dialog>Log Out</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-backdrop" data-dialog-panel="delete-1" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+      <div class="dialog-panel">
+        <h2 class="dialog-title" id="delete-title">Delete your account?</h2>
+        <p class="dialog-text">Your profile, progress, rewards and saved data will be permanently deleted.</p>
+        <div class="dialog-actions">
+          <button class="dialog-button" type="button" data-close-dialog>Cancel</button>
+          <button class="dialog-button danger" type="button" data-dialog="delete-2">Delete Account</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-backdrop" data-dialog-panel="delete-2" role="dialog" aria-modal="true" aria-labelledby="delete-second-title">
+      <div class="dialog-panel">
+        <h2 class="dialog-title" id="delete-second-title">Delete your account?</h2>
+        <p class="dialog-text">This is the second confirmation. No backend deletion will run yet.</p>
+        <div class="dialog-actions">
+          <button class="dialog-button" type="button" data-close-dialog>Cancel</button>
+          <button class="dialog-button danger" type="button" data-close-dialog>Delete Account</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       const navButtons = document.querySelectorAll(".nav-button");
       const screens = document.querySelectorAll(".screen");
+      const settingsViews = document.querySelectorAll(".settings-view");
+      const dialogs = document.querySelectorAll(".dialog-backdrop");
+
+      const showSettingsView = (name) => {
+        settingsViews.forEach((view) => {
+          view.classList.toggle("active", view.dataset.settingsView === name);
+        });
+      };
+
+      const openDialog = (name) => {
+        dialogs.forEach((dialog) => {
+          dialog.classList.toggle("active", dialog.dataset.dialogPanel === name);
+        });
+      };
+
+      const closeDialogs = () => {
+        dialogs.forEach((dialog) => {
+          dialog.classList.remove("active");
+        });
+      };
 
       navButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -303,8 +1013,74 @@
           navButtons.forEach((navButton) => {
             navButton.classList.toggle("active", navButton === button);
           });
+
+          if (target === "settings") {
+            showSettingsView("main");
+          }
         });
       });
+
+      document.querySelector("[data-main-back]").addEventListener("click", () => {
+        document.querySelector('[data-target="home"]').click();
+      });
+
+      document.querySelectorAll("[data-open-settings]").forEach((button) => {
+        button.addEventListener("click", () => {
+          showSettingsView(button.dataset.openSettings);
+        });
+      });
+
+      document.querySelectorAll("[data-settings-back]").forEach((button) => {
+        button.addEventListener("click", () => {
+          showSettingsView("main");
+        });
+      });
+
+      document.querySelectorAll("[data-dialog]").forEach((button) => {
+        button.addEventListener("click", () => {
+          closeDialogs();
+          openDialog(button.dataset.dialog);
+        });
+      });
+
+      document.querySelectorAll("[data-close-dialog]").forEach((button) => {
+        button.addEventListener("click", closeDialogs);
+      });
+
+      document.querySelectorAll('input[type="range"]').forEach((slider) => {
+        const value = document.querySelector(`[data-slider-value="${slider.id}"]`);
+        slider.addEventListener("input", () => {
+          value.textContent = `${slider.value}%`;
+        });
+      });
+
+      document.querySelectorAll("[data-language-option]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-language-option]").forEach((option) => {
+            option.classList.toggle("selected", option === button);
+          });
+        });
+      });
+
+      if (navigator.permissions && navigator.permissions.query) {
+        [
+          ["microphone", "microphone"],
+          ["camera", "camera"],
+          ["geolocation", "geolocation"],
+        ].forEach(([permissionName, statusName]) => {
+          navigator.permissions
+            .query({ name: permissionName })
+            .then((result) => {
+              const status = document.querySelector(`[data-permission-status="${statusName}"]`);
+              const update = () => {
+                status.textContent = result.state === "granted" ? "Allowed" : "Not Allowed";
+              };
+              update();
+              result.addEventListener("change", update);
+            })
+            .catch(() => {});
+        });
+      }
     </script>
   </body>
 </html>
