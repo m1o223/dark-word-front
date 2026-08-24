@@ -158,6 +158,89 @@
         font-size: 12px;
       }
 
+      .auth-screen {
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: calc(42px + var(--safe-top)) 22px calc(34px + var(--safe-bottom));
+        background:
+          radial-gradient(circle at 50% 0, rgba(39, 77, 45, 0.2), transparent 34%),
+          linear-gradient(180deg, #050705 0%, #020302 100%);
+      }
+
+      .auth-shell {
+        min-height: calc(100dvh - 92px - var(--safe-top) - var(--safe-bottom));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 22px;
+      }
+
+      .auth-title {
+        margin: 0;
+        color: #e7ece3;
+        font-size: 30px;
+        font-weight: 800;
+        text-align: center;
+        letter-spacing: 0;
+      }
+
+      .auth-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .auth-button,
+      .auth-link-button,
+      .auth-back {
+        width: 100%;
+        min-height: 46px;
+        border: 1px solid rgba(75, 105, 73, 0.36);
+        border-radius: 8px;
+        background: rgba(8, 12, 9, 0.68);
+        color: #e5ecdf;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .auth-link-button {
+        background: transparent;
+        color: #9fb395;
+      }
+
+      .auth-field {
+        width: 100%;
+        min-height: 46px;
+        border: 1px solid rgba(75, 105, 73, 0.3);
+        border-radius: 8px;
+        background: rgba(4, 7, 5, 0.72);
+        color: #f4f4f4;
+        font: inherit;
+        padding: 0 12px;
+      }
+
+      .auth-field::placeholder {
+        color: #7f8879;
+      }
+
+      .auth-text-button {
+        width: fit-content;
+        min-height: 34px;
+        background: transparent;
+        color: #9fb395;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .auth-back {
+        width: 44px;
+        min-height: 38px;
+        margin-bottom: auto;
+      }
+
+      body[data-active-screen^="auth-"] .bottom-nav {
+        display: none;
+      }
+
       .home-action-row {
         display: flex;
         align-items: flex-start;
@@ -1516,9 +1599,60 @@
       }
     </style>
   </head>
-  <body data-active-screen="home">
+  <body data-active-screen="auth-welcome">
     <main class="app">
-      <section class="screen home-screen active" data-screen="home">
+      <section class="screen auth-screen active" data-screen="auth-welcome">
+        <div class="auth-shell">
+          <h1 class="auth-title">DARK WORLD</h1>
+          <div class="auth-stack">
+            <button class="auth-button" type="button" data-auth-continue>Continue with Apple</button>
+            <button class="auth-button" type="button" data-auth-continue>Continue with Google</button>
+            <button class="auth-button" type="button" data-auth-screen="auth-sign-in">Sign in with Email</button>
+            <button class="auth-link-button" type="button" data-auth-screen="auth-create">Create Account</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen auth-screen" data-screen="auth-sign-in">
+        <div class="auth-shell">
+          <button class="auth-back" type="button" data-auth-screen="auth-welcome" aria-label="Back">&larr;</button>
+          <h1 class="auth-title">DARK WORLD</h1>
+          <div class="auth-stack">
+            <input class="auth-field" type="email" placeholder="Email" aria-label="Email" />
+            <input class="auth-field" type="password" placeholder="Password" aria-label="Password" />
+            <button class="auth-button" type="button" data-auth-continue>Sign In</button>
+            <button class="auth-text-button" type="button" data-auth-screen="auth-forgot">Forgot Password?</button>
+            <button class="auth-link-button" type="button" data-auth-screen="auth-create">Don't have an account? Create Account</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen auth-screen" data-screen="auth-create">
+        <div class="auth-shell">
+          <button class="auth-back" type="button" data-auth-screen="auth-welcome" aria-label="Back">&larr;</button>
+          <h1 class="auth-title">DARK WORLD</h1>
+          <div class="auth-stack">
+            <input class="auth-field" type="email" placeholder="Email" aria-label="Email" />
+            <input class="auth-field" type="password" placeholder="Password" aria-label="Password" />
+            <input class="auth-field" type="password" placeholder="Confirm Password" aria-label="Confirm Password" />
+            <button class="auth-button" type="button" data-auth-continue>Create Account</button>
+            <button class="auth-link-button" type="button" data-auth-screen="auth-sign-in">Already have an account? Sign In</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen auth-screen" data-screen="auth-forgot">
+        <div class="auth-shell">
+          <button class="auth-back" type="button" data-auth-screen="auth-sign-in" aria-label="Back">&larr;</button>
+          <h1 class="auth-title">DARK WORLD</h1>
+          <div class="auth-stack">
+            <input class="auth-field" type="email" placeholder="Email" aria-label="Email" />
+            <button class="auth-button" type="button" data-auth-screen="auth-sign-in">Reset Password</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen home-screen" data-screen="home">
         <div class="home-action-row" aria-label="Home actions">
           <div class="home-action-wrap">
             <button class="home-action" type="button" aria-label="Add Friend" data-dialog="add-friend-search">
@@ -2543,6 +2677,18 @@
       navButtons.forEach((button) => {
         button.addEventListener("click", () => {
           showScreen(button.dataset.target, button);
+        });
+      });
+
+      document.querySelectorAll("[data-auth-screen]").forEach((button) => {
+        button.addEventListener("click", () => {
+          showScreen(button.dataset.authScreen);
+        });
+      });
+
+      document.querySelectorAll("[data-auth-continue]").forEach((button) => {
+        button.addEventListener("click", () => {
+          showScreen("home", document.querySelector('[data-target="home"]'));
         });
       });
 
