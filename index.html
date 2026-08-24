@@ -203,6 +203,58 @@
         display: none;
       }
 
+      .home-friends-panel {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 164px;
+        border: 1px solid rgba(75, 105, 73, 0.28);
+        border-radius: 8px;
+        background: rgba(8, 12, 9, 0.68);
+        overflow: hidden;
+      }
+
+      .home-friends-title {
+        margin: 0;
+        padding: 12px 14px 6px;
+        color: #8fa383;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .home-friends-row {
+        width: 100%;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent;
+        text-align: left;
+      }
+
+      .home-friends-main {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #f4f4f4;
+      }
+
+      .home-friends-icon {
+        width: 18px;
+        height: 18px;
+        color: #8fa383;
+        stroke: currentColor;
+      }
+
+      .home-friends-value {
+        color: #98a391;
+        font-size: 13px;
+      }
+
       .full-map {
         position: relative;
         width: 100%;
@@ -977,6 +1029,43 @@
             </svg>
           </span>
         </button>
+        <section class="home-friends-panel" aria-label="Friends">
+          <h2 class="home-friends-title">FRIENDS</h2>
+          <button class="home-friends-row" type="button" data-dialog="add-friend">
+            <span class="home-friends-main">
+              <svg class="home-friends-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M19 8v6"></path>
+                <path d="M22 11h-6"></path>
+              </svg>
+              <span>Add Friend</span>
+            </span>
+            <span class="home-friends-value">&gt;</span>
+          </button>
+          <div class="home-friends-row">
+            <span class="home-friends-main">
+              <svg class="home-friends-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Friends List</span>
+            </span>
+            <span class="home-friends-value">No friends yet</span>
+          </div>
+          <div class="home-friends-row">
+            <span class="home-friends-main">
+              <svg class="home-friends-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+                <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"></path>
+              </svg>
+              <span>Invitations</span>
+            </span>
+            <span class="home-friends-value">No invitations</span>
+          </div>
+        </section>
         <button class="start-button" type="button">START</button>
       </section>
 
@@ -1505,6 +1594,13 @@
     </div>
 
     <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-button" type="button" data-target="profile">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21a8 8 0 0 0-16 0"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="nav-label">Profile</span>
+      </button>
       <button class="nav-button active" type="button" data-target="home">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="m3 10 9-7 9 7"></path>
@@ -1512,13 +1608,6 @@
           <path d="M10 20v-6h4v6"></path>
         </svg>
         <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-button" type="button" data-target="profile">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20 21a8 8 0 0 0-16 0"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        <span class="nav-label">Profile</span>
       </button>
       <button class="nav-button" type="button" data-target="settings">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
