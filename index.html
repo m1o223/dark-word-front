@@ -85,6 +85,79 @@
         overflow: hidden;
       }
 
+      .game-screen {
+        position: relative;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: calc(18px + var(--safe-top)) 18px 132px;
+        background:
+          radial-gradient(circle at 72% 18%, rgba(39, 77, 45, 0.22), transparent 28%),
+          linear-gradient(180deg, #050705 0%, #020302 100%);
+        overflow: hidden;
+      }
+
+      .home-dashboard {
+        display: grid;
+        gap: 14px;
+        padding-top: 6px;
+      }
+
+      .home-panel {
+        border: 1px solid rgba(75, 105, 73, 0.28);
+        border-radius: 8px;
+        background: rgba(8, 12, 9, 0.68);
+        overflow: hidden;
+      }
+
+      .home-panel-title {
+        margin: 0;
+        padding: 12px 14px 6px;
+        color: #8fa383;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .home-panel-copy {
+        margin: 0;
+        padding: 0 14px 12px;
+        color: #c8d0c3;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .home-dashboard-row {
+        width: 100%;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent;
+        text-align: left;
+      }
+
+      .home-dashboard-main {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #f4f4f4;
+      }
+
+      .home-dashboard-icon {
+        width: 18px;
+        height: 18px;
+        color: #8fa383;
+        stroke: currentColor;
+      }
+
+      .home-dashboard-value {
+        color: #98a391;
+        font-size: 12px;
+      }
+
       .screen.active {
         display: block;
       }
@@ -314,6 +387,10 @@
       }
 
       body.party-active .party-indicator {
+        display: inline-flex;
+      }
+
+      .game-screen .party-indicator {
         display: inline-flex;
       }
 
@@ -1138,7 +1215,7 @@
         min-height: 76px;
         transform: translateX(-50%);
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 0;
         border-top: 1px solid rgba(75, 105, 73, 0.44);
         background: rgba(6, 9, 7, 0.94);
@@ -1185,27 +1262,51 @@
   <body>
     <main class="app">
       <section class="screen home-screen active" data-screen="home">
-        <div class="top-actions" aria-label="Status actions">
-          <button class="icon-button" type="button" aria-label="Microphone" data-home-toggle>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-              <path d="M12 19v3"></path>
-            </svg>
-          </button>
-          <button class="icon-button" type="button" aria-label="Camera" data-home-toggle>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14.5 4 16 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3l1.5-3h5Z"></path>
-              <circle cx="12" cy="13" r="3"></circle>
-            </svg>
-          </button>
-          <button class="icon-button" type="button" aria-label="Sound" data-home-toggle>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
-              <path d="M15 9.5a5 5 0 0 1 0 5"></path>
-              <path d="M18 7a9 9 0 0 1 0 10"></path>
-            </svg>
-          </button>
+        <div class="home-dashboard">
+          <section class="home-panel" aria-label="How to Play">
+            <h2 class="home-panel-title">HOW TO PLAY</h2>
+            <p class="home-panel-copy">Prepare your party, enter Game, then start when you are ready.</p>
+          </section>
+          <section class="home-panel" aria-label="Player preparation">
+            <h2 class="home-panel-title">PREPARE</h2>
+            <button class="home-dashboard-row" type="button" data-dialog="add-friend">
+              <span class="home-dashboard-main">
+                <svg class="home-dashboard-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M19 8v6"></path>
+                  <path d="M22 11h-6"></path>
+                </svg>
+                <span>Add Friend</span>
+              </span>
+              <span class="home-dashboard-value">&gt;</span>
+            </button>
+            <div class="home-dashboard-row">
+              <span class="home-dashboard-main">
+                <svg class="home-dashboard-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+                  <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"></path>
+                </svg>
+                <span>Friend Requests</span>
+              </span>
+              <span class="home-dashboard-value">0</span>
+            </div>
+            <div class="home-dashboard-row">
+              <span class="home-dashboard-main">
+                <svg class="home-dashboard-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>
+                  <path d="M9 17a3 3 0 0 0 6 0"></path>
+                </svg>
+                <span>Game Invitations</span>
+              </span>
+              <span class="home-dashboard-value">0</span>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="screen game-screen" data-screen="game">
+        <div class="top-actions" aria-label="Game status">
           <div class="party-indicator" data-party-indicator>1 / 6 PLAYERS</div>
         </div>
         <button class="map-placeholder" type="button" aria-label="Map placeholder">
@@ -1218,16 +1319,6 @@
             </svg>
           </span>
         </button>
-        <section class="play-together-panel" aria-label="Play Together">
-          <button class="play-together-toggle" type="button" aria-expanded="false" data-party-toggle>
-            <span class="play-together-title">PLAY TOGETHER</span>
-            <span class="party-count" data-party-count>1/6</span>
-            <svg class="party-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-          <div class="party-player-list" data-party-player-list></div>
-        </section>
         <button class="start-button" type="button">START</button>
       </section>
 
@@ -1771,6 +1862,17 @@
         </svg>
         <span class="nav-label">Home</span>
       </button>
+      <button class="nav-button" type="button" data-target="game">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 21h8"></path>
+          <path d="M12 17v4"></path>
+          <path d="M7 4h10l2 9H5l2-9Z"></path>
+          <path d="M9 8h.01"></path>
+          <path d="M15 8h.01"></path>
+          <path d="M9 12h6"></path>
+        </svg>
+        <span class="nav-label">Game</span>
+      </button>
       <button class="nav-button" type="button" data-target="settings">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
@@ -1873,6 +1975,7 @@
       const partyBanner = document.querySelector("[data-party-banner]");
       const partyBannerText = document.querySelector("[data-party-banner-text]");
       let pendingInvitePlayerId = null;
+      let mapReturnTarget = "game";
 
       const demoPlayers = [
         { id: "alex", name: "Alex", invited: false, joined: false, inParty: false },
@@ -1910,7 +2013,13 @@
         const partyActive = members.length > 1;
         document.body.classList.toggle("party-active", partyActive);
         partyIndicator.textContent = `${members.length} / 6 PLAYERS`;
-        partyCount.textContent = `${members.length}/6`;
+        if (partyCount) {
+          partyCount.textContent = `${members.length}/6`;
+        }
+
+        if (!partyPlayerList) {
+          return;
+        }
 
         partyPlayerList.innerHTML = demoPlayers.map((player) => {
           let action = `<button class="party-action" type="button" aria-label="Invite ${player.name}" data-party-invite="${player.id}">${inviteIcon}</button>`;
@@ -2039,27 +2148,31 @@
         });
       });
 
-      partyToggle.addEventListener("click", () => {
-        const isOpen = partyPanel.classList.toggle("open");
-        partyToggle.setAttribute("aria-expanded", String(isOpen));
-      });
+      if (partyToggle) {
+        partyToggle.addEventListener("click", () => {
+          const isOpen = partyPanel.classList.toggle("open");
+          partyToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+      }
 
-      partyPlayerList.addEventListener("click", (event) => {
-        const inviteButton = event.target.closest("[data-party-invite]");
-        const joinButton = event.target.closest("[data-party-join]");
+      if (partyPlayerList) {
+        partyPlayerList.addEventListener("click", (event) => {
+          const inviteButton = event.target.closest("[data-party-invite]");
+          const joinButton = event.target.closest("[data-party-join]");
 
-        if (inviteButton) {
-          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === inviteButton.dataset.partyInvite);
-          player.invited = true;
-          showPartyInvite(player);
-          renderParty();
-        }
+          if (inviteButton) {
+            const player = demoPlayers.find((demoPlayer) => demoPlayer.id === inviteButton.dataset.partyInvite);
+            player.invited = true;
+            showPartyInvite(player);
+            renderParty();
+          }
 
-        if (joinButton) {
-          const player = demoPlayers.find((demoPlayer) => demoPlayer.id === joinButton.dataset.partyJoin);
-          addPlayerToParty(player);
-        }
-      });
+          if (joinButton) {
+            const player = demoPlayers.find((demoPlayer) => demoPlayer.id === joinButton.dataset.partyJoin);
+            addPlayerToParty(player);
+          }
+        });
+      }
 
       document.querySelector("[data-party-accept]").addEventListener("click", () => {
         const player = demoPlayers.find((demoPlayer) => demoPlayer.id === pendingInvitePlayerId);
@@ -2078,7 +2191,7 @@
       });
 
       document.querySelector(".map-placeholder").addEventListener("click", () => {
-        document.querySelector('[data-target="home"]').click();
+        mapReturnTarget = document.querySelector(".screen.active").dataset.screen;
         mapOverlay.classList.add("active");
         mapOverlay.setAttribute("aria-hidden", "false");
         document.body.classList.add("map-open");
@@ -2088,7 +2201,7 @@
         mapOverlay.classList.remove("active");
         mapOverlay.setAttribute("aria-hidden", "true");
         document.body.classList.remove("map-open");
-        document.querySelector('[data-target="home"]').click();
+        document.querySelector(`[data-target="${mapReturnTarget}"]`).click();
       });
 
       const copyPlayerIdButton = document.querySelector("[data-copy-player-id]");
